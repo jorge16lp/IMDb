@@ -1,13 +1,20 @@
-# Vue and VueX Challenges by Jorge López
+# IMDb Project
 
-This repository contains Vue, VueX and TypeScript challenges
-at Academy Frontend Software - Empathy.co
+This repository contains the IMDb Project at Academy Frontend Software - Empathy.co
+
+## Project Developers
+#### Front:
+
+- Jorge López Peláez
+
+#### Back:
+
+- Tania Bajo García
+- Raúl Álvarez
 
 ## Branches
 
-- [Vue Challenge](https://github.com/jorge16lp/Vue_challenge)
-- [VueX Challenge](https://github.com/jorge16lp/Vue_challenge/tree/VueX_challenge)
-- [TypeScript Challenge](https://github.com/jorge16lp/Vue_challenge/tree/TypeScript_challenge)
+- [IMDb Project](https://github.com/jorge16lp/IMDb)
 
 ## Project Setup
 
