@@ -4,7 +4,10 @@ export const charactersModule = {
         characters: []
     }),
     actions: {
-        async fetchCharacters({ commit, rootGetters }) {
+
+        async fetchCharacters({  }) {
+
+            /*
             let url = 'https://rickandmortyapi.com/api/character/?';
             fetch(url + 'name=' + rootGetters['search/getQuery']
                 + '&status=' + rootGetters['search/getStatus']
@@ -13,7 +16,9 @@ export const charactersModule = {
                 .then(data => {
                     commit('setCharacters', data.results);
                 });
+             */
         }
+
     },
     mutations: {
         setCharacters(state, characters) {

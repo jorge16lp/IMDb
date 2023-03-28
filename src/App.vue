@@ -1,31 +1,52 @@
 <template>
-  <div class="logo_container">
-    <img src="/logo.png" class="logo">
-  </div>
   <header class="header">
-    <h1>VueX Challenge</h1>
-  </header>
-  <section class="search_container">
+    <img src="/logo.png" class="logo" alt="IMDb logo">
     <SearchInput />
-  </section>
-    <aside class="facets">
-      <h2 class="status_header">Status Filter</h2>
-      <BaseFilterList v-bind:filters="filters.status" v-slot="slotProps">
-        <StatusFilter :filter="slotProps.filter" />
-      </BaseFilterList>
-      <h2 class="species_header">Species Filter</h2>
+  </header>
+    <aside>
+      <h2 class="status_header">GENDER</h2>
+      <div class="filter_gender">
+        <div id="genders_selected">
+
+        </div>
+        <SeparatorLine/> <!-- luego la quito, solo aparecerá cuando haya filtros seleccionados -->
+        <BaseFilterList v-bind:filters="filters.gender" v-slot="slotProps">
+          <GenderFilter :filter="slotProps.filter" />
+        </BaseFilterList>
+      </div>
+      <h2 class="species_header">RELEASE YEAR</h2>
+      <ReleaseYearFilter />
+
+      <!--
       <BaseFilterList v-bind:filters="filters.species" v-slot="slotProps">
         <SpeciesFilter :filter="slotProps.filter" />
       </BaseFilterList>
+    -->
       <ResetButton class="reset_button" v-on:click="cleanFilters()"></ResetButton>
     </aside>
     <main class="main">
-      <BaseGrid>
-        <CharacterCard
-            v-for="character in characters"
-            v-bind:key="character.id"
-            v-bind:character="character"/>
-      </BaseGrid>
+      <div>
+        <h2 class="section_title">MOST VIEWED</h2>
+        <BaseGrid>
+          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+        <!--
+          <CharacterCard
+              v-for="character in characters"
+              v-bind:key="character.id"
+              v-bind:character="character"/>
+        -->
+        </BaseGrid>
+        <h2 class="section_title">MOST POPULAR</h2>
+        <BaseGrid>
+          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+        </BaseGrid>
+      </div>
     </main>
   <footer>
     <p>Made by Jorge López Peláez - Academy Frontend Software at Empathy.co</p>
@@ -34,31 +55,28 @@
 <script lang="js">
   import BaseFilterList from '@/components/BaseFilterList.vue';
   import BaseGrid from '@/components/BaseGrid.vue';
-  import CharacterCard from '@/components/CharacterCard.vue';
+  import FilmCard from '@/components/FilmCard.vue';
   import SearchInput from '@/components/SearchInput.vue';
   import ResetButton from "@/components/ResetButton.vue";
-  import StatusFilter from "@/components/StatusFilter.vue";
-  import SpeciesFilter from "@/components/SpeciesFilter.vue";
+  import GenderFilter from "@/components/GenderFilter.vue";
+  import ReleaseYearFilter from "@/components/ReleaseYearFilter.vue";
+  import SeparatorLine from "@/components/SeparatorLine.vue";
 
   export default {
     components: {
-      StatusFilter,
+      SeparatorLine,
+      GenderFilter,
       ResetButton,
       SearchInput,
-      CharacterCard,
+      FilmCard,
       BaseFilterList,
       BaseGrid,
-      SpeciesFilter
+      ReleaseYearFilter
     },
     data() {
       return {
-        /*
-         * HACK:
-         *  In Empathy Platform every request returns you the filters available, as Rick-&-morty API do not retrieve it we hardcode them here.
-         */
         filters: {
-          status: ['Unknown', 'Alive', 'Dead'],
-          species: ['Human', 'Alien', 'Robot', 'Mythological Creature', 'Poopybutthole', 'Cronenberg', 'Disease', 'Unknown']
+          gender: ['horror', 'adventure', 'romantic', 'science fiction', 'mystery']
         }
       };
     },
@@ -80,84 +98,49 @@
   };
 </script>
 <style scoped>
-  @keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-
-  @keyframes hover {
-    from { width: 14rem; height: 14rem;}
-    to { width: 15rem; height: 15rem; }
-  }
-
   h2 {
     text-align: center;
-    border-radius: 5px;
-    box-shadow: 0px 1px 3px 1.5px dimgrey;
+    margin: 5px;
+    background-image: linear-gradient(to right, mediumpurple, black, mediumpurple);
+    border-radius: 10px;
   }
 
   .header {
-    background-color: lightgrey;
-    border-radius: 10px;
-    grid-column: 2;
+    background-color: black;
+    grid-column: span 3;
     display: flex;
     align-items: center;
-    justify-content: center;
-    box-shadow: 0px 2px 6px 3px dimgrey;
+    justify-content: space-evenly;
+    /*border: 2px solid mediumpurple;*/
   }
 
   aside {
     color: white;
-    border-radius: 10px;
     grid-row: 2;
     display: flex;
     flex-flow: column;
-  }
-
-  section {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    /*border: 2px solid mediumpurple;*/
   }
 
   main {
-    background-color: lightgrey;
-    border-radius: 10px;
+    background-color: black;
     grid-column: span 2;
     margin-right: 10px;
-    box-shadow: 0px 2px 6px 3px dimgrey;
-  }
-
-  .logo_container {
-    background-image: none;
-    margin: 0px 0px 0px 0px;
-    box-shadow: 0px 0px 0px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 0px;
+    /*border: 2px solid mediumpurple;*/
   }
 
   .logo {
-    width: 9rem;
-    height: 2.8rem;
+    width: 10rem;
+    height: 5rem;
     border-radius: 30px;
-    animation: blink 1.2s ease-in-out 0.4s;
-    box-shadow: 0px 0px 10px 4px ghostwhite;
-  }
-
-  .logo:hover {
-    animation: none;
   }
 
   footer {
-    background-color: lightgrey;
-    border-radius: 10px;
+    background-color: black;
     grid-column: span 3;
     display: flex;
     justify-content: center;
-    box-shadow: 0px 2px 6px 3px dimgrey;
+    border: 2px solid mediumpurple;
     margin-bottom: 10px;
   }
 
@@ -192,11 +175,6 @@
 
     .header {
       grid-column: span 2;
-    }
-
-    .search_container {
-      grid-row: 2;
-      grid-column: span 3;
     }
 
     .main {

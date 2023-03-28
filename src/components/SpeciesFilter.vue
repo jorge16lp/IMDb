@@ -16,8 +16,8 @@ export default {
 
 <style scoped>
   @keyframes hoverColor {
-    from { box-shadow: 0 0 0 0; background-color: darkgrey; color: white; }
-    to { box-shadow: 0 0 3px 1.5px white; background-color: lightblue; color: black; }
+    from { background-color: mediumpurple; }
+    to { background-color: black; color: white; }
   }
 
   .filter:hover {
@@ -25,15 +25,16 @@ export default {
     cursor: pointer;
     animation: hoverColor;
     animation-fill-mode: forwards;
-    border-radius: 2px;
   }
 
   .filter {
     margin-bottom: 4px;
-    background-color: darkgrey;
-    border: none;
-    color: white;
+    background-color: mediumpurple;
+    color: black;
+    font-weight: 600;
     padding: 0.3rem 1.5rem;
+    border-radius: 2px;
+    border: 2px solid mediumpurple;
   }
 
   @media (max-width: 495px) {

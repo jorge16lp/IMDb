@@ -10,8 +10,13 @@ export default  {
 
 <style scoped>
   @keyframes hoverShadow {
-    from { box-shadow: 0 0 0 0; background-color: white; color: black; }
-    to { box-shadow: 0 0 4px 1px white; background-color: royalblue; color: white; }
+    from { background-color: white; color: black; }
+    to { border: 2px solid rebeccapurple; background-color: black; color: white;}
+  }
+
+  @keyframes blink {
+    from { opacity: 1; }
+    to { opacity: 0; }
   }
 
   .reset_button {
@@ -19,14 +24,21 @@ export default  {
     align-self: center;
     width: 9rem;
     height: 1.5rem;
-    border-radius: 5px;
-    background-color: white;
+    border-radius: 1px;
+    background-color: rebeccapurple;
+    color: white;
+    margin: 10px 5px;
+    border: 2px solid white;
   }
 
   .reset_button:hover {
     font-weight: bold;
-    animation: hoverShadow 0.1s;
+    animation: hoverShadow 0s;
     animation-fill-mode: forwards;
+  }
+
+  .reset_button:active {
+    animation: blink 0.5s;
   }
 
   @media (max-width: 744px) {

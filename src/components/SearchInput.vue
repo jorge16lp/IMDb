@@ -16,10 +16,19 @@
 </script>
 
 <style scoped>
+  @keyframes onClickBorderRadius {
+    from { border-radius: 0; }
+    to { border-radius: 20px; }
+  }
+
   .search {
-    width: 20rem;
-    height: 2rem;
-    border-radius: 10px;
-    box-shadow: 0px 2px 6px 3px dimgrey;
+    width: 25rem;
+    height: 1.5rem;
+    border: 2px solid mediumpurple;
+  }
+
+  .search:focus {
+    animation: onClickBorderRadius 1s;
+    animation-fill-mode: forwards;
   }
 </style>
