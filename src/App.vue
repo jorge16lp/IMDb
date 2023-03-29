@@ -6,21 +6,29 @@
     <aside>
       <h2 class="status_header">GENDER</h2>
       <div class="filter_gender">
-        <div id="genders_selected">
-
+        <div class="selected_genders_container">
+          <BaseFilter v-bind:filters="filters.gender" v-slot="slotProps">
+            <SelectedFilter :filter="slotProps.filter" display="none"/>
+          </BaseFilter>
         </div>
-        <SeparatorLine/> <!-- luego la quito, solo aparecerá cuando haya filtros seleccionados -->
-        <BaseFilterList v-bind:filters="filters.gender" v-slot="slotProps">
+        <SeparatorLine/>
+        <BaseFilter v-bind:filters="filters.gender" v-slot="slotProps">
           <GenderFilter :filter="slotProps.filter" />
-        </BaseFilterList>
+        </BaseFilter>
       </div>
       <h2 class="species_header">RELEASE YEAR</h2>
       <ReleaseYearFilter />
+      <!--
+      <button style="display: flex; flex-flow: row;">
+        <p>horror </p>
+        <p> x</p>
+      </button>
+      -->
 
       <!--
-      <BaseFilterList v-bind:filters="filters.species" v-slot="slotProps">
+      <BaseFilter v-bind:filters="filters.species" v-slot="slotProps">
         <SpeciesFilter :filter="slotProps.filter" />
-      </BaseFilterList>
+      </BaseFilter>
     -->
       <ResetButton class="reset_button" v-on:click="cleanFilters()"></ResetButton>
     </aside>
@@ -53,7 +61,7 @@
   </footer>
 </template>
 <script lang="js">
-  import BaseFilterList from '@/components/BaseFilterList.vue';
+  import BaseFilter from '@/components/BaseFilter.vue';
   import BaseGrid from '@/components/BaseGrid.vue';
   import FilmCard from '@/components/FilmCard.vue';
   import SearchInput from '@/components/SearchInput.vue';
@@ -61,6 +69,7 @@
   import GenderFilter from "@/components/GenderFilter.vue";
   import ReleaseYearFilter from "@/components/ReleaseYearFilter.vue";
   import SeparatorLine from "@/components/SeparatorLine.vue";
+  import SelectedFilter from "@/components/SelectedFilter.vue";
 
   export default {
     components: {
@@ -69,9 +78,10 @@
       ResetButton,
       SearchInput,
       FilmCard,
-      BaseFilterList,
+      BaseFilter,
       BaseGrid,
-      ReleaseYearFilter
+      ReleaseYearFilter,
+      SelectedFilter
     },
     data() {
       return {
@@ -90,9 +100,22 @@
     },
     methods: {
       cleanFilters() {
-        this.$store.commit('search/setStatus', '');
-        this.$store.commit('search/setSpecie', '');
-        this.$store.dispatch('characters/fetchCharacters');
+        // reset gender filters
+        const filters = document.getElementsByClassName('filter');
+        for (let i=0; i < filters.length; i++)
+          filters[i].style.display = "block";
+        const selectedFilters = document.getElementsByClassName('selected_filter');
+        for (let i=0; i < selectedFilters.length; i++)
+          selectedFilters[i].style.display = "none";
+        // reset separator line
+        document.getElementById('separator').style.display = "none";
+        // reset slider value
+        document.getElementById('slider').value = 2000;
+        document.getElementById('actual_year').innerText = '2000';
+
+
+        this.$store.commit('search/resetFilters');
+        //this.$store.dispatch('characters/fetchCharacters');
       }
     }
   };
@@ -120,6 +143,10 @@
     display: flex;
     flex-flow: column;
     /*border: 2px solid mediumpurple;*/
+  }
+
+  .selected_genders_container {
+    display: flow;
   }
 
   main {

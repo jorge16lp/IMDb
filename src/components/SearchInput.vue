@@ -28,7 +28,7 @@
   }
 
   .search:focus {
-    animation: onClickBorderRadius 1s;
+    animation: onClickBorderRadius 1.5s;
     animation-fill-mode: forwards;
   }
 </style>

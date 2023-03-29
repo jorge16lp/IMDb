@@ -1,9 +1,7 @@
 <template>
-  <ul class="filters">
-    <li v-for="filter in filters" v-bind:key="filter">
+    <div class="button_container" v-for="filter in filters" v-bind:key="filter">
       <slot :filter="filter"></slot>
-    </li>
-  </ul>
+    </div>
 </template>
 
 <script>
@@ -13,8 +11,11 @@
 </script>
 
 <style scoped>
-  .filters {
+  .button_container {
+    /*
     width: 200px;
     list-style-type: none;
+     */
+    width: 100%;
   }
 </style>

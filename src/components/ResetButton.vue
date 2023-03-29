@@ -25,10 +25,10 @@ export default  {
     width: 9rem;
     height: 1.5rem;
     border-radius: 1px;
-    background-color: rebeccapurple;
+    background-color: mediumpurple;
     color: white;
     margin: 10px 5px;
-    border: 2px solid white;
+    border: 2px solid rebeccapurple;
   }
 
   .reset_button:hover {

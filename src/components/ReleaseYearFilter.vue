@@ -13,6 +13,8 @@
       updateActualYear() {
         document.getElementById('actual_year').innerText =
             document.getElementById('slider').value;
+        this.$store.commit('search/setReleaseYear',
+            document.getElementById('slider').value);
       }
     }
   };

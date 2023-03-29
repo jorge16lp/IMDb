@@ -2,32 +2,33 @@ export const searchModule = {
     namespaced: true,
     state: () => ({
         query: '',
-        genders: [],
-        numberOfGenders: 0
+        genders: ['', '', '', '', ''],
+        releaseYear: 2000
     }),
     mutations: {
-        addGender(state, gender) {
-            state.genders[state.numberOfGenders++] = gender;
-            /*
-            if (state.numberOfGenders === 0)
-                state.genders[state.numberOfGenders++] = gender;
-            else {
-                let canAdd = true;
-                for (let i=0; i < state.genders.length; i++)
-                    if (state.genders[i] === gender)
-                        canAdd = false;
-                if (canAdd)
-                    state.genders[state.numberOfGenders++] = gender;
-            }
-             */
-        },
-        removeGender(state, gender) {
-            let indexToRemove, index = 0;
-            state.genders.map(g => g===gender ? indexToRemove = index : index++);
-            state.genders[indexToRemove] = state.genders[state.genders.length-1];
-        },
         setQuery(state, query) {
             state.query = query
+        },
+        resetFilters(state) {
+            state.query = '';
+            state.genders = ['', '', '', '', ''];
+            state.releaseYear = 2000;
+        },
+        addGender(state, gender) {
+            let numberOfGenders = 0;
+            while (!(state.genders[numberOfGenders] === ''))
+                numberOfGenders++;
+            state.genders[numberOfGenders] = gender;
+        },
+        removeGender(state, gender) {
+            for (let i=0; i < state.genders.length; i++)
+                if (state.genders[i]===gender) {
+                    state.genders[i] = state.genders[state.genders.length-1];
+                    state.genders[state.genders.length-1] = '';
+                }
+        },
+        setReleaseYear(state, year) {
+            state.releaseYear = year;
         }
     },
     getters: {
