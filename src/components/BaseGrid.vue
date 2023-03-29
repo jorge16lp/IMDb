@@ -1,37 +1,18 @@
 <template>
-  <div class="sliding">
-    <button class="movement_button" @click="moveLeft"> ← </button>
     <div class="scroll">
       <section class="grid">
         <slot></slot>
       </section>
     </div>
-    <button class="movement_button" @click="moveRight"> → </button>
-  </div>
 </template>
 
 <script>
 
   export default{
-    methods: {
-      moveRight() {
-        document.querySelector('.scroll').scrollLeft += 224;
-      },
-      moveLeft() {
-        document.querySelector('.scroll').scrollLeft -= 224;
-      }
-    }
   }
 </script>
 
 <style scoped>
-  .sliding{
-    align-items: center;
-    display: flex;
-    flex-flow: row nowrap;
-    position: relative;
-  }
-
   .scroll {
     display: flex;
     flex: 100%;
@@ -48,27 +29,6 @@
 
   .scroll > * {
     flex: 0 0 auto;
-  }
-
-  .movement_button {
-    border: 1px solid mediumpurple;
-    background-color: black;
-    color: white;
-    border-radius: 3px;
-    margin: 5px;
-  }
-
-  .movement_button:hover {
-    background-color: mediumpurple;
-  }
-
-  @keyframes blink {
-    from { opacity: 1; }
-    to { opacity: 0; }
-  }
-
-  .movement_button:active {
-    animation: blink 0.5s;
   }
 
   .grid{
