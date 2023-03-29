@@ -1,17 +1,26 @@
 <template>
   <div class="sliding">
-    <button class="movement_button"> ← </button>
+    <button class="movement_button" @click="moveLeft"> ← </button>
     <div class="scroll">
       <section class="grid">
         <slot></slot>
       </section>
     </div>
-    <button class="movement_button"> → </button>
+    <button class="movement_button" @click="moveRight"> → </button>
   </div>
 </template>
 
 <script>
+
   export default{
+    methods: {
+      moveRight() {
+        document.querySelector('.scroll').scrollLeft += 224;
+      },
+      moveLeft() {
+        document.querySelector('.scroll').scrollLeft -= 224;
+      }
+    }
   }
 </script>
 
@@ -29,6 +38,8 @@
     flex-flow: row nowrap;
     overflow-x: hidden;
     overflow-y: hidden;
+    scroll-behavior: smooth;
+    transition-duration: 1s;
   }
 
   .scroll:hover {

@@ -35,7 +35,7 @@
     <main class="main">
       <div>
         <h2 class="section_title">MOST VIEWED</h2>
-        <BaseGrid>
+        <BaseGrid id="mostViewed">
           <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
           <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
           <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
@@ -48,7 +48,7 @@
         -->
         </BaseGrid>
         <h2 class="section_title">MOST POPULAR</h2>
-        <BaseGrid>
+        <BaseGrid id="mostPopular">
           <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
           <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
           <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
