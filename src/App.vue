@@ -158,7 +158,6 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    /*border: 2px solid mediumpurple;*/
   }
 
   aside {
@@ -166,7 +165,6 @@
     grid-row: 2;
     display: flex;
     flex-flow: column;
-    /*border: 2px solid mediumpurple;*/
   }
 
   .selected_genders_container {
@@ -177,7 +175,6 @@
     background-color: black;
     grid-column: span 2;
     margin-right: 10px;
-    /*border: 2px solid mediumpurple;*/
   }
 
   .logo {

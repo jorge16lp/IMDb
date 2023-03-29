@@ -32,7 +32,6 @@
   }
 
   .grid{
-    /*border: 2px solid mediumpurple;*/
     display: flex;
     flex-flow: row nowrap;
     gap: 8px;
