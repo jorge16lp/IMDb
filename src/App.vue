@@ -18,42 +18,32 @@
       </div>
       <h2 class="species_header">RELEASE YEAR</h2>
       <ReleaseYearFilter />
-      <!--
-      <button style="display: flex; flex-flow: row;">
-        <p>horror </p>
-        <p> x</p>
-      </button>
-      -->
-
-      <!--
-      <BaseFilter v-bind:filters="filters.species" v-slot="slotProps">
-        <SpeciesFilter :filter="slotProps.filter" />
-      </BaseFilter>
-    -->
       <ResetButton class="reset_button" v-on:click="cleanFilters()"></ResetButton>
     </aside>
     <main class="main">
       <div>
         <h2 class="section_title">MOST VIEWED</h2>
-        <BaseGrid id="mostViewed">
-          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
-          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
-          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
-          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
-        <!--
-          <CharacterCard
-              v-for="character in characters"
-              v-bind:key="character.id"
-              v-bind:character="character"/>
-        -->
-        </BaseGrid>
+        <div class="sliding">
+          <button class="movement_button" @click="moveLeft('mostViewed')"> ← </button>
+          <BaseGrid id="mostViewed">
+            <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+            <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+            <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+            <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+          </BaseGrid>
+          <button class="movement_button" @click="moveRight('mostViewed')"> → </button>
+        </div>
         <h2 class="section_title">MOST POPULAR</h2>
-        <BaseGrid id="mostPopular">
-          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
-          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
-          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
-          <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
-        </BaseGrid>
+        <div class="sliding">
+          <button class="movement_button" @click="moveLeft('mostPopular')"> ← </button>
+          <BaseGrid id="mostPopular">
+            <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+            <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+            <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+            <FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard><FilmCard></FilmCard>
+          </BaseGrid>
+          <button class="movement_button" @click="moveRight('mostPopular')"> → </button>
+        </div>
       </div>
     </main>
   <footer>
@@ -113,14 +103,48 @@
         document.getElementById('slider').value = 2000;
         document.getElementById('actual_year').innerText = '2000';
 
-
+        // update store
         this.$store.commit('search/resetFilters');
         //this.$store.dispatch('characters/fetchCharacters');
+      },
+      moveRight(section) {
+        document.getElementById(section).scrollLeft += 224;
+      },
+      moveLeft(section) {
+        document.getElementById(section).scrollLeft -= 224;
       }
     }
   };
 </script>
 <style scoped>
+  .sliding{
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+    position: relative;
+  }
+
+  .movement_button {
+    border: 1px solid mediumpurple;
+    background-color: black;
+    color: white;
+    border-radius: 3px;
+    margin: 5px;
+  }
+
+  .movement_button:hover {
+    background-color: mediumpurple;
+  }
+
+  @keyframes blink {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  .movement_button:active {
+    animation: blink 0.5s;
+  }
+
   h2 {
     text-align: center;
     margin: 5px;
