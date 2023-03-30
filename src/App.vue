@@ -1,14 +1,15 @@
 <template>
   <header class="header">
-    <img src="/logo.png" class="logo" alt="IMDb logo">
+    <button class="menu_toggle" @click="toggleMenu">Menu</button>
     <SearchInput />
+    <img src="/logo.png" class="logo" alt="IMDb logo">
   </header>
-    <aside>
-      <h2 class="status_header">GENDER</h2>
-      <div class="filter_gender">
+    <aside id="menu" class="menu">
+      <div class="gender_filter">
+        <h2 class="gender_header">GENDER</h2>
         <div class="selected_genders_container">
           <BaseFilter v-bind:filters="filters.gender" v-slot="slotProps">
-            <SelectedFilter :filter="slotProps.filter" display="none"/>
+            <SelectedGenderFilter :filter="slotProps.filter" display="none"/>
           </BaseFilter>
         </div>
         <SeparatorLine/>
@@ -16,11 +17,18 @@
           <GenderFilter :filter="slotProps.filter" />
         </BaseFilter>
       </div>
-      <h2 class="species_header">RELEASE YEAR</h2>
-      <ReleaseYearFilter />
-      <ResetButton class="reset_button" v-on:click="cleanFilters()"></ResetButton>
+      <div class="releaseYear_filter">
+        <h2 class="releaseYear_header">RELEASE YEAR</h2>
+        <ReleaseYearFilter />
+      </div>
+      <div class="actor_filter">
+        <h2 class="actor_header">ACTORS</h2>
+        <input placeholder="Actor..." type="text" class="actors_txt" />
+        <input class="actors_button" type="image" src="/logo.png" alt="image button to ad actors to filter">
+      </div>
+        <ResetButton class="reset_button" v-on:click="cleanFilters()"></ResetButton>
     </aside>
-    <main class="main">
+    <main id="main" class="main">
       <div>
         <h2 class="section_title">MOST VIEWED</h2>
         <div class="sliding">
@@ -47,7 +55,11 @@
       </div>
     </main>
   <footer>
-    <p>Made by Jorge López Peláez - Academy Frontend Software at Empathy.co</p>
+    <p>
+      Frontend made by Jorge López - Academy Frontend Software at Empathy.co
+    <br>
+      Backend made by Tania Bajo & Raúl Álvarez - Academy Backend Software at Empathy.co
+    </p>
   </footer>
 </template>
 <script lang="js">
@@ -59,7 +71,7 @@
   import GenderFilter from "@/components/GenderFilter.vue";
   import ReleaseYearFilter from "@/components/ReleaseYearFilter.vue";
   import SeparatorLine from "@/components/SeparatorLine.vue";
-  import SelectedFilter from "@/components/SelectedFilter.vue";
+  import SelectedGenderFilter from "@/components/SelectedGenderFilter.vue";
 
   export default {
     components: {
@@ -71,7 +83,7 @@
       BaseFilter,
       BaseGrid,
       ReleaseYearFilter,
-      SelectedFilter
+      SelectedGenderFilter
     },
     data() {
       return {
@@ -112,11 +124,68 @@
       },
       moveLeft(section) {
         document.getElementById(section).scrollLeft -= 224;
+      },
+      toggleMenu() {
+        if (document.getElementById('menu').style.display === 'none') {
+          document.getElementById('menu').style.display = 'block';
+          document.getElementById('main').style.gridColumn = 'span 2';
+        } else {
+          document.getElementById('menu').style.display = 'none';
+          document.getElementById('main').style.gridColumn = 'span 3';
+        }
       }
     }
   };
 </script>
 <style scoped>
+  .releaseYear_filter {
+    border-top: 1px solid white;
+    margin-top: 15px;
+    padding-top: 10px;
+  }
+
+  .menu_toggle {
+    width: 60%;
+    height: 50%;
+    font-size: 16px;
+    border-radius: 3px;
+    justify-self: center;
+    background-color: black;
+    color: white;
+    border: 2px solid #333;
+  }
+
+  @keyframes onClickBorderRadius {
+    from { border-radius: 0; }
+    to { border-radius: 20px; }
+  }
+
+  @keyframes onClickBorderRadiusOut {
+    from { border-radius: 20px; }
+    to { border-radius: 0; }
+  }
+
+  .actors_txt {
+    margin-left: 10px;
+    width: 70%;
+    border: 2px solid mediumpurple;
+  }
+
+  .actors_txt:focus {
+    animation: onClickBorderRadius 1.5s;
+    animation-fill-mode: forwards;
+  }
+
+  .actors_txt:not(:focus) {
+    animation: onClickBorderRadiusOut 1.5s;
+    animation-fill-mode: forwards;
+  }
+
+  .actors_button {
+    margin-left: 5px;
+    width: 20%;
+  }
+
   .sliding{
     align-items: center;
     display: flex;
@@ -155,16 +224,20 @@
   .header {
     background-color: black;
     grid-column: span 3;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
     align-items: center;
-    justify-content: space-evenly;
   }
 
   aside {
     color: white;
-    grid-row: 2;
-    display: flex;
-    flex-flow: column;
+    border: 1px solid mediumpurple;
+    border-radius: 3px;
+    width: 95%;
+    top: 50px;
+    background-color: #151414;
+    padding: 10px;
+    display: none;
   }
 
   .selected_genders_container {
@@ -173,7 +246,7 @@
 
   main {
     background-color: black;
-    grid-column: span 2;
+    grid-column: span 3;
     margin-right: 10px;
   }
 
@@ -181,6 +254,7 @@
     width: 10rem;
     height: 5rem;
     border-radius: 30px;
+    justify-self: center;
   }
 
   footer {
@@ -188,8 +262,9 @@
     grid-column: span 3;
     display: flex;
     justify-content: center;
-    border: 2px solid mediumpurple;
-    margin-bottom: 10px;
+    border-top: 1px solid mediumpurple;
+    margin-bottom: 15px;
+    text-align: center;
   }
 
   @media(max-width: 1144px) {
@@ -211,7 +286,7 @@
       grid-template: 0.5fr 2fr 0.5fr / 50% 50%;
     }
 
-    .species_header {
+    .releaseYear_header {
       grid-column: 2;
       grid-row: 1;
     }
@@ -239,14 +314,14 @@
   }
 
   @media (max-width: 495px) {
-    .status_header {
+    .gender_header {
       justify-self: center;
       width: 10rem;
       max-height: 1.5rem;
       font-size: 1rem;
     }
 
-    .species_header {
+    .releaseYear_header {
       justify-self: center;
       width: 10rem;
       max-height: 1.5rem;

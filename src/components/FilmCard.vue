@@ -1,8 +1,8 @@
 <template>
   <article class="film">
-    <div>film cover</div>
-    <div>film name</div>
-    <div>description on tooltip</div>
+    <img src="/cover_.jpeg" class="film_image" alt="film image">
+    <div>🍿film name🍿</div>
+    <div>✨description on tooltip✨</div>
   </article>
 </template>
 
@@ -12,6 +12,13 @@
 </script>
 
 <style scoped>
+  .film_image {
+    width: 150px;
+    margin-top: 5px;
+    border-radius: 3px;
+    justify-self: center;
+  }
+
   div {
     text-align: center;
   }

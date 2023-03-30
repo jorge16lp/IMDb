@@ -12,10 +12,6 @@
 
 <style scoped>
   .button_container {
-    /*
-    width: 200px;
-    list-style-type: none;
-     */
-    width: 100%;
+
   }
 </style>

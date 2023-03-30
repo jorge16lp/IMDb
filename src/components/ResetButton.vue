@@ -11,7 +11,7 @@ export default  {
 <style scoped>
   @keyframes hoverShadow {
     from { background-color: white; color: black; }
-    to { border: 2px solid rebeccapurple; background-color: black; color: white;}
+    to { border: 2px solid rebeccapurple; background-color: #151414; color: white;}
   }
 
   @keyframes blink {

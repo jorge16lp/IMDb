@@ -21,14 +21,25 @@
     to { border-radius: 20px; }
   }
 
+  @keyframes onClickBorderRadiusOut {
+    from { border-radius: 20px; }
+    to { border-radius: 0; }
+  }
+
   .search {
-    width: 25rem;
+    width: 100%;
     height: 1.5rem;
+    margin: 5px;
     border: 2px solid mediumpurple;
   }
 
   .search:focus {
     animation: onClickBorderRadius 1.5s;
+    animation-fill-mode: forwards;
+  }
+
+  .search:not(:focus) {
+    animation: onClickBorderRadiusOut 1.5s;
     animation-fill-mode: forwards;
   }
 </style>
