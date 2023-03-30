@@ -32,7 +32,7 @@
 <style scoped>
   @keyframes hoverColor {
     from { background-color: mediumpurple; }
-    to { background-color: black; color: white }
+    to { background-color: #151414; color: white }
   }
 
   @keyframes blink {
@@ -54,17 +54,11 @@
   .filter {
     margin: 0 30px 4px;
     background-color: mediumpurple;
-    color: black;
+    color: #151414;
     font-weight: 600;
     padding: 0.3rem 1.5rem;
     border-radius: 2px;
     border: 2px solid mediumpurple;
-  }
-
-  @media (max-width: 495px) {
-    .filter {
-      font-size: 0.8rem;
-      padding: 0.3rem 0.8rem;
-    }
+    width: 75%;
   }
 </style>

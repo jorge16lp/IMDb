@@ -20,44 +20,44 @@
   };
 </script>
 
-<style scoped>
-  .min_year {
-    margin: 5px;
-  }
-  .max_year {
-    margin: 5px;
-    text-align: right;
-  }
-
-  .actual_year {
-    text-align: center;
-    grid-column: 2;
-  }
-
-  .slider {
-    align-self: center;
-    cursor: pointer;
-
-    border: 2px solid mediumpurple;
-  }
-
-  .slider::-webkit-slider-thumb {
-    background-color: mediumpurple;
-    color: white;
-    margin-top: -4.5px;
-  }
-
-  .slider::-webkit-slider-runnable-track {
-    height: 10px;
-    background-color: black;
-    border-radius: 5px;
-    border: 2px solid mediumpurple;
-  }
-
+<style lang="scss" scoped>
   .filter_releaseYear {
     display: grid;
     grid-template: 30px 30px / 1fr 3fr 1fr;
     justify-content: center;
     align-items: center;
+
+    .min_year {
+      margin: 5px;
+    }
+
+    .max_year {
+      margin: 5px;
+      text-align: right;
+    }
+
+    .actual_year {
+      text-align: center;
+      grid-column: 2;
+    }
+
+    .slider {
+      align-self: center;
+      cursor: pointer;
+      border: 2px solid mediumpurple;
+    }
+
+    .slider::-webkit-slider-thumb {
+      background-color: mediumpurple;
+      color: white;
+      margin-top: -4.5px;
+    }
+
+    .slider::-webkit-slider-runnable-track {
+      height: 10px;
+      background-color: black;
+      border-radius: 5px;
+      border: 2px solid mediumpurple;
+    }
   }
 </style>

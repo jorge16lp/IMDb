@@ -36,13 +36,14 @@
 
 <style scoped>
   .selected_filter {
-    background-color: black;
+    background-color: #151414;
     border: 2px solid mediumpurple;
     font-weight: 600;
     border-radius: 2px;
     color: white;
     margin: 0 30px 4px;
     display: none;
+    width: 75%;
   }
 
   .selected_filter:hover {
