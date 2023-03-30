@@ -11,7 +11,5 @@
 </script>
 
 <style scoped>
-  .button_container {
 
-  }
 </style>

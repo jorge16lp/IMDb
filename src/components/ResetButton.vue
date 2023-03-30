@@ -40,10 +40,4 @@ export default  {
   .reset_button:active {
     animation: blink 0.5s;
   }
-
-  @media (max-width: 744px) {
-    .reset_button {
-      min-width: 14rem;
-    }
-  }
 </style>

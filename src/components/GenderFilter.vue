@@ -61,11 +61,4 @@
     border: 2px solid mediumpurple;
     width: 75%;
   }
-
-  @media (max-width: 495px) {
-    .filter {
-      font-size: 0.8rem;
-      padding: 0.3rem 0.8rem;
-    }
-  }
 </style>
