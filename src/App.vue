@@ -21,25 +21,11 @@
 
     <SeparatorLine class="filters_separator"/>
 
-    <div class="txt_filter">
-      <h2>ACTORS</h2>
-      <div id="selected_actors_container" class="selected_container"></div>
-      <SeparatorLine id="actor_separator"/>
-      <input id="actors_txt" placeholder="Search by actor name..." type="text" class="txt_input"
-             v-on:keydown="enterActor"/>
-      <button class="add_button" @click="addActor">+</button>
-    </div>
+    <ActorFilterSection/>
 
     <SeparatorLine class="filters_separator"/>
 
-    <div class="txt_filter">
-      <h2>DIRECTORS</h2>
-      <div id="selected_directors_container" class="selected_container"></div>
-      <SeparatorLine id="director_separator"/>
-      <input id="directors_txt" placeholder="Search by director name..." type="text" class="txt_input"
-             v-on:keydown="enterDirector"/>
-      <button class="add_button" @click="addDirector">+</button>
-    </div>
+    <DirectorFilterSection/>
 
     <ResetButton class="reset_button" v-on:click="cleanFilters()"></ResetButton>
 
@@ -107,9 +93,12 @@ import SelectedGenreFilter from "@/components/SelectedGenreFilter.vue";
 import HeaderContent from "@/components/HeaderContent.vue";
 import ReleaseYearSection from "@/components/ReleaseYearSection.vue";
 import FooterContent from "@/components/FooterContent.vue";
+import ActorFilterSection from "@/components/ActorFilterSection.vue";
+import DirectorFilterSection from "@/components/DirectorFilterSection.vue";
 
 export default {
   components: {
+    DirectorFilterSection,
     FooterContent,
     ReleaseYearSection,
     HeaderContent,
@@ -119,7 +108,8 @@ export default {
     FilmCard,
     BaseFilter,
     BaseGrid,
-    SelectedGenreFilter
+    SelectedGenreFilter,
+    ActorFilterSection
   },
   data() {
     return {
@@ -164,125 +154,12 @@ export default {
     },
     moveLeft(section) {
       document.getElementById(section).scrollLeft -= 224;
-    },
-    addActor() {
-      const actor = document.getElementById('actors_txt').value;
-
-      const store = this.$store; // store reference
-
-      if (!(actor === '')) {
-        let isNewActor = true;
-        const selected_actors = document.getElementById('selected_actors_container').childNodes;
-        for (let i = 0; i < selected_actors.length; i++)
-          if (selected_actors[i].textContent === actor + ' x')
-            isNewActor = false;
-
-        if (isNewActor) {
-          // to add actor to de search store
-          store.commit('search/addActor', actor);
-
-          // create a selected actor filter
-          let button = document.createElement('button');
-          button.id = actor;
-          button.innerText = actor + ' x';
-          button.classList.add('selected_filter');
-          button.addEventListener('click', function () {
-            let actorButton = document.getElementById(actor);
-            if (actorButton) {
-              actorButton.remove();
-              // remove actor from search store
-              store.commit('search/removeActor', actor);
-            }
-            if (document.getElementById('selected_actors_container').childNodes.length === 0)
-              document.getElementById('actor_separator').style.display = "none";
-          });
-          document.getElementById('selected_actors_container').appendChild(button);
-          document.getElementById('actors_txt').value = '';
-          // activate actor SeparatorLine
-          document.getElementById('actor_separator').style.display = "block";
-        }
-      }
-      document.getElementById('actors_txt').focus();
-    },
-    enterActor(event) {
-      if (event.key === 'Enter') {
-        this.addActor();
-      }
-    },
-    addDirector() {
-      const director = document.getElementById('directors_txt').value;
-
-      const store = this.$store;
-
-      if (!(director === '')) {
-        let isNewDirector = true;
-        const selected_directors = document.getElementById('selected_directors_container').childNodes;
-        for (let i = 0; i < selected_directors.length; i++)
-          if (selected_directors[i].textContent === director + ' x')
-            isNewDirector = false;
-
-        if (isNewDirector) {
-          // add director to de search store
-          store.commit('search/addDirector', director);
-
-          // create a selected actor filter
-          let button = document.createElement('button');
-          button.id = director;
-          button.innerText = director + ' x';
-          button.classList.add('selected_filter');
-          button.addEventListener('click', function () {
-            let directorButton = document.getElementById(director);
-            if (directorButton) {
-              directorButton.remove();
-              // remove director from search store
-              store.commit('search/removeDirector', director);
-            }
-            if (document.getElementById('selected_directors_container').childNodes.length === 0)
-              document.getElementById('director_separator').style.display = "none";
-          });
-          document.getElementById('selected_directors_container').appendChild(button);
-          document.getElementById('directors_txt').value = '';
-          // activate director SeparatorLine
-          document.getElementById('director_separator').style.display = "block";
-        }
-      }
-      document.getElementById('directors_txt').focus();
-    },
-    enterDirector(event,) {
-      if (event.key === 'Enter') {
-        this.addDirector();
-      }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-@keyframes onClickBorderRadius {
-  from {
-    border-radius: 3px;
-  }
-  to {
-    border-radius: 20px;
-  }
-}
 
-@keyframes onClickBorderRadiusOut {
-  from {
-    border-radius: 20px;
-  }
-  to {
-    border-radius: 3px;
-  }
-}
-
-@keyframes blink {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
 
 aside {
   color: white;
@@ -304,50 +181,6 @@ aside {
   .gender_filter {
     .selected_genders_container {
       display: flow;
-    }
-  }
-
-  .txt_filter {
-    .add_button {
-      border: 2px solid mediumpurple;
-      background-color: #151414;
-      color: white;
-      border-radius: 20px;
-      margin-left: 8px;
-      width: 15%;
-    }
-
-    .selected_container {
-      display: flex;
-      flex-flow: column;
-      justify-content: center;
-    }
-
-    .txt_input {
-      margin-left: 10px;
-      border-radius: 3px;
-      width: 70%;
-      border: 2px solid mediumpurple;
-      background-color: #151414;
-      color: white;
-    }
-
-    .txt_input:focus {
-      animation: onClickBorderRadius 1.5s;
-      animation-fill-mode: forwards;
-    }
-
-    .txt_input:not(:focus) {
-      animation: onClickBorderRadiusOut 1.5s;
-      animation-fill-mode: forwards;
-    }
-
-    .add_button:hover {
-      background-color: #737373;
-    }
-
-    .add_button:active {
-      animation: blink 0.05s;
     }
   }
 }
