@@ -2,8 +2,9 @@ export const searchModule = {
     namespaced: true,
     state: () => ({
         query: '',
-        genders: ['', '', '', '', ''],
-        releaseYear: 2000
+        genders: ['', '', '', '', '', ''],
+        releaseYear: 2000,
+        actors: []
     }),
     mutations: {
         setQuery(state, query) {
@@ -11,8 +12,9 @@ export const searchModule = {
         },
         resetFilters(state) {
             state.query = '';
-            state.genders = ['', '', '', '', ''];
+            state.genders = ['', '', '', '', '', ''];
             state.releaseYear = 2000;
+            state.actors = [];
         },
         addGender(state, gender) {
             let numberOfGenders = 0;
@@ -29,14 +31,29 @@ export const searchModule = {
         },
         setReleaseYear(state, year) {
             state.releaseYear = year;
+        },
+        addActor(state, actor) {
+            state.actors[state.actors.length] = actor;
+        },
+        removeActor(state, actor) {
+            for (let i=0; i < state.actors.length; i++)
+                if (state.actors[i]===actor) {
+                    state.actors.splice(i, 1);
+                }
         }
     },
     getters: {
+        getQuery(state) {
+            return state.query
+        },
         getGenders(state) {
             return state.genders
         },
-        getQuery(state) {
-            return state.query
+        getReleaseYear(state) {
+            return state.releaseYear
+        },
+        getActors(state) {
+            return state.actors
         }
     }
 }
