@@ -1,52 +1,51 @@
 <template>
-  <button class="selected_filter" @click="removeFilter">
-    {{ filter }} x</button>
+  <button class="selected_filter" @click="removeFilter">{{ filter }} x</button>
 </template>
 
 <script>
-  export default {
-    props: ['filter'],
-    methods: {
-      removeFilter() {
-        this.$store.commit('search/removeGender', this.filter);
+export default {
+  props: ['filter'],
+  methods: {
+    removeFilter() {
+      this.$store.commit('search/removeGender', this.filter);
 
-        // desactivate SelectedFilter
-        const selectedFilters = document.getElementsByClassName('selected_filter');
-        for (let i=0; i < selectedFilters.length; i++)
-          if (selectedFilters[i].textContent === this.filter + ' x')
-            selectedFilters[i].style.display = "none";
+      // desactivate SelectedFilter
+      const selectedFilters = document.getElementsByClassName('selected_filter');
+      for (let i = 0; i < selectedFilters.length; i++)
+        if (selectedFilters[i].textContent === this.filter + ' x')
+          selectedFilters[i].style.display = "none";
 
-        // activate GenderFilter
-        const filters = document.getElementsByClassName('filter');
-        for (let i=0; i < filters.length; i++)
-          if (filters[i].textContent === this.filter)
-            filters[i].style.display = "block";
+      // activate GenderFilter
+      const filters = document.getElementsByClassName('filter');
+      for (let i = 0; i < filters.length; i++)
+        if (filters[i].textContent === this.filter)
+          filters[i].style.display = "block";
 
-        // if no more selected filters: desactivate SeparatorLine
-        let allDesactivated = true;
-        for (let i=0; i < selectedFilters.length; i++)
-          if (selectedFilters[i].style.display === "block")
-            allDesactivated = false;
-        if (allDesactivated)
-          document.getElementById('separator').style.display = "none";
-      }
+      // if no more selected filters: desactivate gender SeparatorLine
+      let allDesactivated = true;
+      for (let i = 0; i < selectedFilters.length; i++)
+        if (selectedFilters[i].style.display === "block")
+          allDesactivated = false;
+      if (allDesactivated)
+        document.getElementById('gender_separator').style.display = "none";
     }
-  };
+  }
+};
 </script>
 
 <style scoped>
-  .selected_filter {
-    background-color: #151414;
-    border: 2px solid mediumpurple;
-    font-weight: 600;
-    border-radius: 2px;
-    color: white;
-    margin: 0 30px 4px;
-    display: none;
-    width: 75%;
-  }
+.selected_filter {
+  background-color: #151414;
+  border: 2px solid mediumpurple;
+  font-weight: 600;
+  border-radius: 2px;
+  color: white;
+  margin: 0 30px 4px;
+  display: none;
+  width: 75%;
+}
 
-  .selected_filter:hover {
-    color: #c0c0c0;
-  }
+.selected_filter:hover {
+  color: #c0c0c0;
+}
 </style>
