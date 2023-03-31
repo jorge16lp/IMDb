@@ -13,5 +13,6 @@ export default {};
   color: mediumpurple;
   box-shadow: 0 0 6px 0.5px white;
   display: none;
+  border-radius: 2px;
 }
 </style>
