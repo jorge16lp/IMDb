@@ -1,32 +1,55 @@
 <template>
   <header class="header">
-    <button class="menu_toggle" @click="toggleMenu">Menu</button>
+    <button id="menu_toggle" class="menu_toggle" @click="toggleMenu">Menu</button>
     <SearchInput/>
     <img src="/logo.png" class="logo" alt="IMDb logo">
   </header>
   <aside id="menu" class="menu">
+
     <div class="gender_filter">
-      <h2 class="gender_header">GENDER</h2>
+      <h2>GENDER</h2>
       <div class="selected_genders_container">
         <BaseFilter v-bind:filters="filters.gender" v-slot="slotProps">
           <SelectedGenderFilter :filter="slotProps.filter" display="none"/>
         </BaseFilter>
       </div>
-      <SeparatorLine/>
+      <SeparatorLine id="gender_separator"/>
       <BaseFilter v-bind:filters="filters.gender" v-slot="slotProps">
         <GenderFilter :filter="slotProps.filter"/>
       </BaseFilter>
     </div>
+
+    <SeparatorLine class="filters_separator"/>
+
     <div class="releaseYear_filter">
-      <h2 class="releaseYear_header">RELEASE YEAR</h2>
+      <h2>RELEASE YEAR</h2>
       <ReleaseYearFilter/>
     </div>
-    <div class="actor_filter">
-      <h2 class="actor_header">ACTORS</h2>
-      <input placeholder="Actor..." type="text" class="actors_txt"/>
-      <input class="actors_button" type="image" src="/logo.png" alt="image button to ad actors to filter">
+
+    <SeparatorLine class="filters_separator"/>
+
+    <div class="txt_filter">
+      <h2>ACTORS</h2>
+      <div id="selected_actors_container" class="selected_container"></div>
+      <SeparatorLine id="actor_separator"/>
+      <input id="actors_txt" placeholder="Search by actor name..." type="text" class="txt_input"
+             v-on:keydown="enterActor"/>
+      <button class="add_button" @click="addActor">+</button>
     </div>
+
+    <SeparatorLine class="filters_separator"/>
+
+    <div class="txt_filter">
+      <h2>DIRECTORS</h2>
+      <div id="selected_directors_container" class="selected_container"></div>
+      <SeparatorLine id="director_separator"/>
+      <input id="directors_txt" placeholder="Search by director name..." type="text" class="txt_input"
+             v-on:keydown="enterDirector"/>
+      <button class="add_button" @click="addDirector">+</button>
+    </div>
+
     <ResetButton class="reset_button" v-on:click="cleanFilters()"></ResetButton>
+
   </aside>
   <main id="main" class="main">
     <div>
@@ -112,7 +135,7 @@ export default {
   data() {
     return {
       filters: {
-        gender: ['horror', 'adventure', 'romantic', 'science fiction', 'mystery']
+        gender: ['horror', 'adventure', 'romantic', 'science fiction', 'mystery', 'action']
       }
     };
   },
@@ -133,8 +156,8 @@ export default {
       const selectedFilters = document.getElementsByClassName('selected_filter');
       for (let i = 0; i < selectedFilters.length; i++)
         selectedFilters[i].style.display = "none";
-      // reset separator line
-      document.getElementById('separator').style.display = "none";
+      // reset gender separator line
+      document.getElementById('gender_separator').style.display = "none";
       // reset slider value
       document.getElementById('slider').value = 2000;
       document.getElementById('actual_year').innerText = '2000';
@@ -153,10 +176,105 @@ export default {
       if (document.getElementById('menu').style.display === 'none') {
         document.getElementById('menu').style.display = 'block';
         document.getElementById('main').style.gridColumn = 'span 2';
+        document.getElementById('menu_toggle').textContent = 'Close Menu';
       } else {
         document.getElementById('menu').style.display = 'none';
         document.getElementById('main').style.gridColumn = 'span 3';
+        document.getElementById('menu_toggle').textContent = 'Menu';
       }
+    },
+    addActor() {
+      const actor = document.getElementById('actors_txt').value;
+
+      const store = this.$store; // store reference
+      // to add actor to de search store
+      store.commit('search/addActor', actor);
+
+      if (!(actor === '')) {
+        let isNewActor = true;
+        const selected_actors = document.getElementById('selected_actors_container').childNodes;
+        for (let i = 0; i < selected_actors.length; i++)
+          if (selected_actors[i].textContent === actor + ' x')
+            isNewActor = false;
+
+        if (isNewActor) {
+          // create a selected actor filter
+          let button = document.createElement('button');
+          button.id = actor;
+          button.innerText = actor + ' x';
+          button.classList.add('selected_filter');
+          button.addEventListener('click', function () {
+            let actorButton = document.getElementById(actor);
+            if (actorButton) {
+              actorButton.remove();
+              // remove actor from search store
+              store.commit('search/removeActor', actor);
+            }
+            if (document.getElementById('selected_actors_container').childNodes.length === 0)
+              document.getElementById('actor_separator').style.display = "none";
+          });
+          document.getElementById('selected_actors_container').appendChild(button);
+          document.getElementById('actors_txt').value = '';
+          // activate gender SeparatorLine
+          document.getElementById('actor_separator').style.display = "block";
+        }
+      }
+
+      document.getElementById('actors_txt').focus();
+    },
+    addDirector() {
+      const actor = document.getElementById('actors_txt').value;
+
+      const store = this.$store;
+      // add director to de search store
+      store.commit('search/addDirector', actor);
+
+      if (!(actor === '')) {
+        let isNewActor = true;
+        const selected_actors = document.getElementById('selected_actors_container').childNodes;
+        for (let i = 0; i < selected_actors.length; i++)
+          if (selected_actors[i].textContent === actor + ' x')
+            isNewActor = false;
+
+        if (isNewActor) {
+          // create a selected actor filter
+          let button = document.createElement('button');
+          button.id = actor;
+          button.innerText = actor + ' x';
+          button.classList.add('selected_filter');
+          button.addEventListener('click', function () {
+            let actorButton = document.getElementById(actor);
+            if (actorButton) {
+              actorButton.remove();
+              // remove director from search store
+              store.commit('search/removeDirector', actor);
+            }
+            if (document.getElementById('selected_actors_container').childNodes.length === 0)
+              document.getElementById('actor_separator').style.display = "none";
+          });
+          document.getElementById('selected_actors_container').appendChild(button);
+          document.getElementById('actors_txt').value = '';
+          // activate gender SeparatorLine
+          document.getElementById('actor_separator').style.display = "block";
+        }
+      }
+
+      document.getElementById('actors_txt').focus();
+    },
+    enterActor(event) {
+      if (event.key === 'Enter') {
+        this.addActor();
+      }
+    },
+    enterDirector(event,) {
+      if (event.key === 'Enter') {
+        this.addDirector();
+      }
+    },
+    deleteActorFilter(actor) {
+      let actorButton = document.getElementById(actor);
+      if (actorButton)
+        actorButton.style.display = "none";
     }
   }
 };
@@ -164,20 +282,22 @@ export default {
 <style lang="scss" scoped>
 @keyframes onClickBorderRadius {
   from {
-    border-radius: 0;
+    border-radius: 3px;
   }
   to {
     border-radius: 20px;
   }
 }
+
 @keyframes onClickBorderRadiusOut {
   from {
     border-radius: 20px;
   }
   to {
-    border-radius: 0;
+    border-radius: 3px;
   }
 }
+
 @keyframes blink {
   from {
     opacity: 1;
@@ -204,12 +324,15 @@ h2 {
   .menu_toggle {
     width: 60%;
     height: 50%;
-    font-size: 16px;
+    font-size: 23px;
     border-radius: 3px;
     justify-self: center;
     background-color: black;
     color: white;
     border: 2px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .logo {
@@ -230,35 +353,61 @@ aside {
   padding: 10px;
   display: none;
 
-  .selected_genders_container {
-    display: flow;
+  .filters_separator {
+    display: block;
+    border: 1px solid black;
+    width: 100%;
+    box-shadow: 0 0 0 0.1px white;
   }
 
-  .releaseYear_filter {
-    border-top: 1px solid white;
-    margin-top: 15px;
-    padding-top: 10px;
+  .gender_filter {
+    .selected_genders_container {
+      display: flow;
+    }
   }
 
-  .actors_txt {
-    margin-left: 10px;
-    width: 70%;
-    border: 2px solid mediumpurple;
-  }
+  .txt_filter {
+    .add_button {
+      border: 2px solid mediumpurple;
+      background-color: #151414;
+      color: white;
+      border-radius: 20px;
+      margin-left: 8px;
+      width: 15%;
+    }
 
-  .actors_txt:focus {
-    animation: onClickBorderRadius 1.5s;
-    animation-fill-mode: forwards;
-  }
+    .selected_container {
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+    }
 
-  .actors_txt:not(:focus) {
-    animation: onClickBorderRadiusOut 1.5s;
-    animation-fill-mode: forwards;
-  }
+    .txt_input {
+      margin-left: 10px;
+      border-radius: 3px;
+      width: 70%;
+      border: 2px solid mediumpurple;
+      background-color: #151414;
+      color: white;
+    }
 
-  .actors_button {
-    margin-left: 5px;
-    width: 20%;
+    .txt_input:focus {
+      animation: onClickBorderRadius 1.5s;
+      animation-fill-mode: forwards;
+    }
+
+    .txt_input:not(:focus) {
+      animation: onClickBorderRadiusOut 1.5s;
+      animation-fill-mode: forwards;
+    }
+
+    .add_button:hover {
+      background-color: #737373;
+    }
+
+    .add_button:active {
+      animation: blink 0.05s;
+    }
   }
 }
 
