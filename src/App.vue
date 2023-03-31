@@ -1,30 +1,23 @@
 <template>
-  <header class="header">
-    <button id="menu_toggle" class="menu_toggle" @click="toggleMenu">Menu</button>
-    <SearchInput/>
-    <img src="/logo.png" class="logo" alt="IMDb logo">
-  </header>
+  <HeaderContent />
   <aside id="menu" class="menu">
 
     <div class="gender_filter">
       <h2>GENRES</h2>
       <div class="selected_genders_container">
         <BaseFilter v-bind:filters="filters.gender" v-slot="slotProps">
-          <SelectedGenderFilter :filter="slotProps.filter" display="none"/>
+          <SelectedGenreFilter :filter="slotProps.filter" display="none"/>
         </BaseFilter>
       </div>
       <SeparatorLine id="gender_separator"/>
       <BaseFilter v-bind:filters="filters.gender" v-slot="slotProps">
-        <GenderFilter :filter="slotProps.filter"/>
+        <GenreFilter :filter="slotProps.filter"/>
       </BaseFilter>
     </div>
 
     <SeparatorLine class="filters_separator"/>
 
-    <div class="releaseYear_filter">
-      <h2>RELEASE YEAR</h2>
-      <ReleaseYearFilter/>
-    </div>
+    <ReleaseYearSection/>
 
     <SeparatorLine class="filters_separator"/>
 
@@ -101,45 +94,41 @@
       </div>
     </div>
   </main>
-  <footer>
-    <p>
-      Frontend made by Jorge López - Academy Frontend Software at Empathy.co
-      <br>
-      Backend made by Tania Bajo & Raúl Álvarez - Academy Backend Software at Empathy.co
-    </p>
-  </footer>
+  <FooterContent/>
 </template>
 <script lang="js">
 import BaseFilter from '@/components/BaseFilter.vue';
 import BaseGrid from '@/components/BaseGrid.vue';
 import FilmCard from '@/components/FilmCard.vue';
-import SearchInput from '@/components/SearchInput.vue';
 import ResetButton from "@/components/ResetButton.vue";
-import GenderFilter from "@/components/GenderFilter.vue";
-import ReleaseYearFilter from "@/components/ReleaseYearFilter.vue";
+import GenreFilter from "@/components/GenreFilter.vue";
 import SeparatorLine from "@/components/SeparatorLine.vue";
-import SelectedGenderFilter from "@/components/SelectedGenderFilter.vue";
+import SelectedGenreFilter from "@/components/SelectedGenreFilter.vue";
+import HeaderContent from "@/components/HeaderContent.vue";
+import ReleaseYearSection from "@/components/ReleaseYearSection.vue";
+import FooterContent from "@/components/FooterContent.vue";
 
 export default {
   components: {
+    FooterContent,
+    ReleaseYearSection,
+    HeaderContent,
     SeparatorLine,
-    GenderFilter,
+    GenreFilter,
     ResetButton,
-    SearchInput,
     FilmCard,
     BaseFilter,
     BaseGrid,
-    ReleaseYearFilter,
-    SelectedGenderFilter
+    SelectedGenreFilter
   },
   data() {
     return {
       filters: {
         gender: [
-                  //'comedy', 'adventure', 'family', 'sci-fi', 'history', 'action', 'mystery', 'war', 'crime', 'fantasy',
-                  //'horror', 'news', 'sport', 'western', 'animation', 'documentary', 'film-noir', 'music', 'reality-tv',
-                  'talk-show', 'biography', 'drama', 'game-show', 'musical', 'romance', 'thriller'
-                ]
+          //'comedy', 'adventure', 'family', 'sci-fi', 'history', 'action', 'mystery', 'war', 'crime', 'fantasy',
+          //'horror', 'news', 'sport', 'western', 'animation', 'documentary', 'film-noir', 'music', 'reality-tv',
+          'talk-show', 'biography', 'drama', 'game-show', 'musical', 'romance', 'thriller'
+        ]
       }
     };
   },
@@ -175,17 +164,6 @@ export default {
     },
     moveLeft(section) {
       document.getElementById(section).scrollLeft -= 224;
-    },
-    toggleMenu() {
-      if (document.getElementById('menu').style.display === 'none') {
-        document.getElementById('menu').style.display = 'block';
-        document.getElementById('main').style.gridColumn = 'span 2';
-        document.getElementById('menu_toggle').textContent = 'Close Menu';
-      } else {
-        document.getElementById('menu').style.display = 'none';
-        document.getElementById('main').style.gridColumn = 'span 3';
-        document.getElementById('menu_toggle').textContent = 'Menu';
-      }
     },
     addActor() {
       const actor = document.getElementById('actors_txt').value;
@@ -306,42 +284,6 @@ export default {
   }
 }
 
-h2 {
-  text-align: center;
-  margin: 5px;
-  background-image: linear-gradient(to right, mediumpurple, black, mediumpurple);
-  border-radius: 10px;
-}
-
-.header {
-  background-color: black;
-  grid-column: span 3;
-  display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
-  align-items: center;
-
-  .menu_toggle {
-    width: 60%;
-    height: 50%;
-    font-size: 23px;
-    border-radius: 3px;
-    justify-self: center;
-    background-color: black;
-    color: white;
-    border: 2px solid #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .logo {
-    width: 10rem;
-    height: 5rem;
-    border-radius: 30px;
-    justify-self: center;
-  }
-}
-
 aside {
   color: white;
   border: 1px solid mediumpurple;
@@ -437,16 +379,5 @@ main {
   .movement_button:active {
     animation: blink 0.5s;
   }
-}
-
-
-footer {
-  background-color: black;
-  grid-column: span 3;
-  display: flex;
-  justify-content: center;
-  border-top: 1px solid mediumpurple;
-  margin-bottom: 15px;
-  text-align: center;
 }
 </style>
