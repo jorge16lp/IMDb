@@ -4,7 +4,8 @@ export const searchModule = {
         query: '',
         genders: [],
         releaseYear: 2000,
-        actors: []
+        actors: [],
+        directors: []
     }),
     mutations: {
         setQuery(state, query) {
@@ -34,6 +35,14 @@ export const searchModule = {
             for (let i=0; i < state.actors.length; i++)
                 if (state.actors[i]===actor)
                     state.actors.splice(i, 1);
+        },
+        addDirector(state, director) {
+            state.directors[state.directors.length] = director;
+        },
+        removeDirector(state, director) {
+            for (let i=0; i < state.directors.length; i++)
+                if (state.directors[i]===director)
+                    state.directors.splice(i, 1);
         }
     },
     getters: {
@@ -48,6 +57,9 @@ export const searchModule = {
         },
         getActors(state) {
             return state.actors
+        },
+        getDirectors(state) {
+            return state.directors
         }
     }
 }
