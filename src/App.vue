@@ -7,7 +7,7 @@
   <aside id="menu" class="menu">
 
     <div class="gender_filter">
-      <h2>GENDER</h2>
+      <h2>GENRES</h2>
       <div class="selected_genders_container">
         <BaseFilter v-bind:filters="filters.gender" v-slot="slotProps">
           <SelectedGenderFilter :filter="slotProps.filter" display="none"/>
@@ -135,7 +135,11 @@ export default {
   data() {
     return {
       filters: {
-        gender: ['horror', 'adventure', 'romantic', 'science fiction', 'mystery', 'action']
+        gender: [
+                  //'comedy', 'adventure', 'family', 'sci-fi', 'history', 'action', 'mystery', 'war', 'crime', 'fantasy',
+                  //'horror', 'news', 'sport', 'western', 'animation', 'documentary', 'film-noir', 'music', 'reality-tv',
+                  'talk-show', 'biography', 'drama', 'game-show', 'musical', 'romance', 'thriller'
+                ]
       }
     };
   },
@@ -216,51 +220,10 @@ export default {
           });
           document.getElementById('selected_actors_container').appendChild(button);
           document.getElementById('actors_txt').value = '';
-          // activate gender SeparatorLine
+          // activate actor SeparatorLine
           document.getElementById('actor_separator').style.display = "block";
         }
       }
-
-      document.getElementById('actors_txt').focus();
-    },
-    addDirector() {
-      const actor = document.getElementById('actors_txt').value;
-
-      const store = this.$store;
-
-      if (!(actor === '')) {
-        let isNewActor = true;
-        const selected_actors = document.getElementById('selected_actors_container').childNodes;
-        for (let i = 0; i < selected_actors.length; i++)
-          if (selected_actors[i].textContent === actor + ' x')
-            isNewActor = false;
-
-        if (isNewActor) {
-          // add director to de search store
-          store.commit('search/addDirector', actor);
-
-          // create a selected actor filter
-          let button = document.createElement('button');
-          button.id = actor;
-          button.innerText = actor + ' x';
-          button.classList.add('selected_filter');
-          button.addEventListener('click', function () {
-            let actorButton = document.getElementById(actor);
-            if (actorButton) {
-              actorButton.remove();
-              // remove director from search store
-              store.commit('search/removeDirector', actor);
-            }
-            if (document.getElementById('selected_actors_container').childNodes.length === 0)
-              document.getElementById('actor_separator').style.display = "none";
-          });
-          document.getElementById('selected_actors_container').appendChild(button);
-          document.getElementById('actors_txt').value = '';
-          // activate gender SeparatorLine
-          document.getElementById('actor_separator').style.display = "block";
-        }
-      }
-
       document.getElementById('actors_txt').focus();
     },
     enterActor(event) {
@@ -268,15 +231,49 @@ export default {
         this.addActor();
       }
     },
+    addDirector() {
+      const director = document.getElementById('directors_txt').value;
+
+      const store = this.$store;
+
+      if (!(director === '')) {
+        let isNewDirector = true;
+        const selected_directors = document.getElementById('selected_directors_container').childNodes;
+        for (let i = 0; i < selected_directors.length; i++)
+          if (selected_directors[i].textContent === director + ' x')
+            isNewDirector = false;
+
+        if (isNewDirector) {
+          // add director to de search store
+          store.commit('search/addDirector', director);
+
+          // create a selected actor filter
+          let button = document.createElement('button');
+          button.id = director;
+          button.innerText = director + ' x';
+          button.classList.add('selected_filter');
+          button.addEventListener('click', function () {
+            let directorButton = document.getElementById(director);
+            if (directorButton) {
+              directorButton.remove();
+              // remove director from search store
+              store.commit('search/removeDirector', director);
+            }
+            if (document.getElementById('selected_directors_container').childNodes.length === 0)
+              document.getElementById('director_separator').style.display = "none";
+          });
+          document.getElementById('selected_directors_container').appendChild(button);
+          document.getElementById('directors_txt').value = '';
+          // activate director SeparatorLine
+          document.getElementById('director_separator').style.display = "block";
+        }
+      }
+      document.getElementById('directors_txt').focus();
+    },
     enterDirector(event,) {
       if (event.key === 'Enter') {
         this.addDirector();
       }
-    },
-    deleteActorFilter(actor) {
-      let actorButton = document.getElementById(actor);
-      if (actorButton)
-        actorButton.style.display = "none";
     }
   }
 };
