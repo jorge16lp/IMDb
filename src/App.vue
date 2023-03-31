@@ -187,8 +187,6 @@ export default {
       const actor = document.getElementById('actors_txt').value;
 
       const store = this.$store; // store reference
-      // to add actor to de search store
-      store.commit('search/addActor', actor);
 
       if (!(actor === '')) {
         let isNewActor = true;
@@ -198,6 +196,9 @@ export default {
             isNewActor = false;
 
         if (isNewActor) {
+          // to add actor to de search store
+          store.commit('search/addActor', actor);
+
           // create a selected actor filter
           let button = document.createElement('button');
           button.id = actor;
@@ -226,8 +227,6 @@ export default {
       const actor = document.getElementById('actors_txt').value;
 
       const store = this.$store;
-      // add director to de search store
-      store.commit('search/addDirector', actor);
 
       if (!(actor === '')) {
         let isNewActor = true;
@@ -237,6 +236,9 @@ export default {
             isNewActor = false;
 
         if (isNewActor) {
+          // add director to de search store
+          store.commit('search/addDirector', actor);
+
           // create a selected actor filter
           let button = document.createElement('button');
           button.id = actor;

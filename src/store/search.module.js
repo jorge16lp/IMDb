@@ -2,7 +2,7 @@ export const searchModule = {
     namespaced: true,
     state: () => ({
         query: '',
-        genders: ['', '', '', '', '', ''],
+        genders: [],
         releaseYear: 2000,
         actors: []
     }),
@@ -12,22 +12,17 @@ export const searchModule = {
         },
         resetFilters(state) {
             state.query = '';
-            state.genders = ['', '', '', '', '', ''];
+            state.genders = [];
             state.releaseYear = 2000;
             state.actors = [];
         },
         addGender(state, gender) {
-            let numberOfGenders = 0;
-            while (!(state.genders[numberOfGenders] === ''))
-                numberOfGenders++;
-            state.genders[numberOfGenders] = gender;
+            state.genders[state.genders.length] = gender;
         },
         removeGender(state, gender) {
             for (let i=0; i < state.genders.length; i++)
-                if (state.genders[i]===gender) {
-                    state.genders[i] = state.genders[state.genders.length-1];
-                    state.genders[state.genders.length-1] = '';
-                }
+                if (state.genders[i]===gender)
+                    state.genders.splice(i, 1);
         },
         setReleaseYear(state, year) {
             state.releaseYear = year;
@@ -37,9 +32,8 @@ export const searchModule = {
         },
         removeActor(state, actor) {
             for (let i=0; i < state.actors.length; i++)
-                if (state.actors[i]===actor) {
+                if (state.actors[i]===actor)
                     state.actors.splice(i, 1);
-                }
         }
     },
     getters: {
