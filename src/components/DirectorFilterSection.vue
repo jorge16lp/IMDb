@@ -1,6 +1,6 @@
 <template>
   <div class="txt_filter">
-    <h2>DIRECTORS</h2>
+    <h2 class="filter_title">DIRECTORS</h2>
     <div id="selected_directors_container" class="selected_container"></div>
     <SeparatorLine id="director_separator"/>
     <input id="directors_txt" placeholder="Search by director name..." type="text" class="txt_input"

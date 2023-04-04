@@ -42,7 +42,7 @@ export default {
   width: 100%;
   height: 1.5rem;
   margin: 5px;
-  border: 2px solid mediumpurple;
+  border: 2px solid rebeccapurple;
 }
 
 .search:focus {

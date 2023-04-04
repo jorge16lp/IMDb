@@ -1,9 +1,29 @@
 <template>
-  <HeaderContent />
+  <HeaderContent/>
   <aside id="menu" class="menu">
 
-    <div class="gender_filter">
-      <h2>GENRES</h2>
+    <div class="back_button_container">
+      <button class="back_menu_button" @click="hideMenu">←</button>
+    </div>
+
+    <fieldset>
+      <legend>select filters to use</legend>
+      <button id="genre_button" class="selection_filter" @click="selectFilter('genre_button','gender_filter')">genre
+      </button>
+      <button id="year_button" class="selection_filter" @click="selectFilter('year_button','releaseYear_filter')">
+        release year
+      </button>
+      <button id="actor_button" class="selection_filter" @click="selectFilter('actor_button','actor_filter')">actor
+      </button>
+      <button id="director_button" class="selection_filter" @click="selectFilter('director_button','director_filter')">
+        director
+      </button>
+    </fieldset>
+
+    <SeparatorLine id="selectors-genre" class="filters_separator"/>
+
+    <div id="gender_filter" class="gender_filter">
+      <h2 class="filter_title">GENRES</h2>
       <div class="selected_genders_container">
         <BaseFilter v-bind:filters="filters.gender" v-slot="slotProps">
           <SelectedGenreFilter :filter="slotProps.filter" display="none"/>
@@ -15,26 +35,26 @@
       </BaseFilter>
     </div>
 
-    <SeparatorLine class="filters_separator"/>
+    <SeparatorLine id="genre-year" class="filters_separator"/>
 
-    <ReleaseYearSection/>
+    <ReleaseYearSection id="releaseYear_filter" class="releaseYear_filter"/>
 
-    <SeparatorLine class="filters_separator"/>
+    <SeparatorLine id="year-actor" class="filters_separator"/>
 
-    <ActorFilterSection/>
+    <ActorFilterSection id="actor_filter"/>
 
-    <SeparatorLine class="filters_separator"/>
+    <SeparatorLine id="actor-director" class="filters_separator"/>
 
-    <DirectorFilterSection/>
+    <DirectorFilterSection id="director_filter"/>
 
-    <ResetButton class="reset_button" v-on:click="cleanFilters()"></ResetButton>
+    <ResetButton class="reset_button"></ResetButton>
 
   </aside>
   <main id="main" class="main">
     <div>
       <h2 class="section_title">MOST VIEWED</h2>
       <div class="sliding">
-        <button class="movement_button" @click="moveLeft('mostViewed')"> ←</button>
+        <button class="movement_button" @click="moveLeft('mostViewed')">←</button>
         <BaseGrid id="mostViewed">
           <FilmCard></FilmCard>
           <FilmCard></FilmCard>
@@ -53,11 +73,11 @@
           <FilmCard></FilmCard>
           <FilmCard></FilmCard>
         </BaseGrid>
-        <button class="movement_button" @click="moveRight('mostViewed')"> →</button>
+        <button class="movement_button" @click="moveRight('mostViewed')">→</button>
       </div>
       <h2 class="section_title">MOST POPULAR</h2>
       <div class="sliding">
-        <button class="movement_button" @click="moveLeft('mostPopular')"> ←</button>
+        <button class="movement_button" @click="moveLeft('mostPopular')">←</button>
         <BaseGrid id="mostPopular">
           <FilmCard></FilmCard>
           <FilmCard></FilmCard>
@@ -76,40 +96,40 @@
           <FilmCard></FilmCard>
           <FilmCard></FilmCard>
         </BaseGrid>
-        <button class="movement_button" @click="moveRight('mostPopular')"> →</button>
+        <button class="movement_button" @click="moveRight('mostPopular')">→</button>
       </div>
     </div>
   </main>
   <FooterContent/>
 </template>
 <script lang="js">
-import BaseFilter from '@/components/BaseFilter.vue';
 import BaseGrid from '@/components/BaseGrid.vue';
 import FilmCard from '@/components/FilmCard.vue';
 import ResetButton from "@/components/ResetButton.vue";
-import GenreFilter from "@/components/GenreFilter.vue";
 import SeparatorLine from "@/components/SeparatorLine.vue";
-import SelectedGenreFilter from "@/components/SelectedGenreFilter.vue";
 import HeaderContent from "@/components/HeaderContent.vue";
 import ReleaseYearSection from "@/components/ReleaseYearSection.vue";
 import FooterContent from "@/components/FooterContent.vue";
 import ActorFilterSection from "@/components/ActorFilterSection.vue";
 import DirectorFilterSection from "@/components/DirectorFilterSection.vue";
+import BaseFilter from "@/components/BaseFilter.vue";
+import GenreFilter from "@/components/GenreFilter.vue";
+import SelectedGenreFilter from "@/components/SelectedGenreFilter.vue";
 
 export default {
   components: {
+    SelectedGenreFilter,
+    GenreFilter,
+    BaseFilter,
     DirectorFilterSection,
     FooterContent,
     ReleaseYearSection,
     HeaderContent,
     SeparatorLine,
-    GenreFilter,
     ResetButton,
     FilmCard,
-    BaseFilter,
     BaseGrid,
-    SelectedGenreFilter,
-    ActorFilterSection
+    ActorFilterSection,
   },
   data() {
     return {
@@ -131,45 +151,64 @@ export default {
     }
   },
   methods: {
-    cleanFilters() {
-      // reset gender filters
-      const filters = document.getElementsByClassName('filter');
-      for (let i = 0; i < filters.length; i++)
-        filters[i].style.display = "block";
-      const selectedFilters = document.getElementsByClassName('selected_filter');
-      for (let i = 0; i < selectedFilters.length; i++)
-        selectedFilters[i].style.display = "none";
-      // reset gender separator line
-      document.getElementById('gender_separator').style.display = "none";
-      // reset slider value
-      document.getElementById('slider').value = 2000;
-      document.getElementById('actual_year').innerText = '2000';
-
-      // update store
-      this.$store.commit('search/resetFilters');
-      //this.$store.dispatch('characters/fetchCharacters');
-    },
     moveRight(section) {
       document.getElementById(section).scrollLeft += 224;
     },
     moveLeft(section) {
       document.getElementById(section).scrollLeft -= 224;
+    },
+    hideMenu() {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('main').style.gridColumn = 'span 3';
+      document.getElementById('menu_toggle').style.display = 'block';
+      document.getElementById('menu_toggle').style.marginBottom = '10px';
+      //document.getElementById('header').style.gridColumn = 'span 3';
+      //document.getElementById('header').style.gridTemplateColumns = '2fr 1fr';
+    },
+    selectFilter(button, filter) {
+      if (document.getElementById(filter).style.display === 'none') {
+        document.getElementById(filter).style.display = 'block';
+        document.getElementById(button).style.backgroundColor = '#151414';
+        document.getElementById(button).style.color = 'white';
+      } else {
+        document.getElementById(filter).style.display = 'none';
+        document.getElementById(button).style.backgroundColor = 'mediumpurple';
+        document.getElementById(button).style.color = 'black';
+      }
+      switch (filter) {
+        case 'gender_filter':
+          break;
+        case 'releaseYear_filter':
+          break;
+        case 'actor_filter':
+          break;
+        case 'director_filter':
+          break;
+      }
     }
   }
 };
 </script>
+
 <style lang="scss" scoped>
-
-
 aside {
-  color: white;
-  border: 1px solid mediumpurple;
-  border-radius: 3px;
-  width: 95%;
-  top: 50px;
-  background-color: #151414;
-  padding: 10px;
-  display: none;
+  fieldset {
+    border-color: rebeccapurple;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+  }
+
+  .selection_filter {
+    margin: 0 30px 4px;
+    background-color: mediumpurple;
+    color: #151414;
+    font-weight: 600;
+    padding: 0.3rem 1.5rem;
+    border-radius: 2px;
+    border: 2px solid mediumpurple;
+    width: 75%;
+  }
 
   .filters_separator {
     display: block;
@@ -178,10 +217,8 @@ aside {
     box-shadow: 0 0 0 0.1px white;
   }
 
-  .gender_filter {
-    .selected_genders_container {
-      display: flow;
-    }
+  .releaseYear_filter {
+    display: none;
   }
 }
 
@@ -198,7 +235,7 @@ main {
   }
 
   .movement_button {
-    border: 1px solid mediumpurple;
+    border: 1px solid rebeccapurple;
     background-color: black;
     color: white;
     border-radius: 3px;

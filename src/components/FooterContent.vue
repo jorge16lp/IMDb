@@ -19,7 +19,7 @@ footer {
   grid-column: span 3;
   display: flex;
   justify-content: center;
-  border-top: 1px solid mediumpurple;
+  border-top: 1px solid rebeccapurple;
   margin-bottom: 15px;
   text-align: center;
 }

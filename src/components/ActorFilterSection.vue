@@ -1,6 +1,6 @@
 <template>
   <div class="txt_filter">
-    <h2>ACTORS</h2>
+    <h2 class="filter_title">ACTORS</h2>
     <div id="selected_actors_container" class="selected_container"></div>
     <SeparatorLine id="actor_separator"/>
     <input id="actors_txt" placeholder="Search by actor name..." type="text" class="txt_input"

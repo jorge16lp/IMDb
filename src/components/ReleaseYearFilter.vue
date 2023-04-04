@@ -57,7 +57,7 @@
       height: 10px;
       background-color: black;
       border-radius: 5px;
-      border: 2px solid mediumpurple;
+      border: 2px solid rebeccapurple;
     }
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>RELEASE YEAR</h2>
-    <ReleaseYearFilter/>
+    <h2 class="filter_title">RELEASE YEAR</h2>
+    <ReleaseYearFilter class="slider_content"/>
   </div>
 </template>
 
@@ -12,11 +12,10 @@ export default {
   components: {
     ReleaseYearFilter
   },
-  methods: {
-
-  }
+  methods: {}
 };
 </script>
 
 <style lang="scss" scoped>
+
 </style>
