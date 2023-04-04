@@ -6,19 +6,7 @@
       <button class="back_menu_button" @click="hideMenu">←</button>
     </div>
 
-    <fieldset>
-      <legend>select filters to use</legend>
-      <button id="genre_button" class="selection_filter" @click="selectFilter('genre_button','gender_filter')">genre
-      </button>
-      <button id="year_button" class="selection_filter" @click="selectFilter('year_button','releaseYear_filter')">
-        release year
-      </button>
-      <button id="actor_button" class="selection_filter" @click="selectFilter('actor_button','actor_filter')">actor
-      </button>
-      <button id="director_button" class="selection_filter" @click="selectFilter('director_button','director_filter')">
-        director
-      </button>
-    </fieldset>
+    <FiltersSelection/>
 
     <SeparatorLine id="selectors-genre" class="filters_separator"/>
 
@@ -39,7 +27,13 @@
 
     <ReleaseYearSection id="releaseYear_filter" class="releaseYear_filter"/>
 
-    <SeparatorLine id="year-actor" class="filters_separator"/>
+    <SeparatorLine id="year-duration" class="filters_separator"/>
+
+    <div>
+
+    </div>
+
+    <SeparatorLine id="duration-actor" class="filters_separator"/>
 
     <ActorFilterSection id="actor_filter"/>
 
@@ -115,9 +109,11 @@ import DirectorFilterSection from "@/components/DirectorFilterSection.vue";
 import BaseFilter from "@/components/BaseFilter.vue";
 import GenreFilter from "@/components/GenreFilter.vue";
 import SelectedGenreFilter from "@/components/SelectedGenreFilter.vue";
+import FiltersSelection from "@/components/FiltersSelection.vue";
 
 export default {
   components: {
+    FiltersSelection,
     SelectedGenreFilter,
     GenreFilter,
     BaseFilter,
@@ -164,27 +160,6 @@ export default {
       document.getElementById('menu_toggle').style.marginBottom = '10px';
       //document.getElementById('header').style.gridColumn = 'span 3';
       //document.getElementById('header').style.gridTemplateColumns = '2fr 1fr';
-    },
-    selectFilter(button, filter) {
-      if (document.getElementById(filter).style.display === 'none') {
-        document.getElementById(filter).style.display = 'block';
-        document.getElementById(button).style.backgroundColor = '#151414';
-        document.getElementById(button).style.color = 'white';
-      } else {
-        document.getElementById(filter).style.display = 'none';
-        document.getElementById(button).style.backgroundColor = 'mediumpurple';
-        document.getElementById(button).style.color = 'black';
-      }
-      switch (filter) {
-        case 'gender_filter':
-          break;
-        case 'releaseYear_filter':
-          break;
-        case 'actor_filter':
-          break;
-        case 'director_filter':
-          break;
-      }
     }
   }
 };
@@ -192,24 +167,6 @@ export default {
 
 <style lang="scss" scoped>
 aside {
-  fieldset {
-    border-color: rebeccapurple;
-    display: flex;
-    flex-direction: column;
-    border-radius: 5px;
-  }
-
-  .selection_filter {
-    margin: 0 30px 4px;
-    background-color: mediumpurple;
-    color: #151414;
-    font-weight: 600;
-    padding: 0.3rem 1.5rem;
-    border-radius: 2px;
-    border: 2px solid mediumpurple;
-    width: 75%;
-  }
-
   .filters_separator {
     display: block;
     border: 1px solid black;
