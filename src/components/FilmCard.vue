@@ -13,7 +13,7 @@
 
 <style lang="scss" scoped>
   .film {
-    border: 2px solid mediumpurple;
+    border: 2px solid rebeccapurple;
     border-radius: 10px;
     margin: 15px 10px 20px;
     display: grid;

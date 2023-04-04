@@ -30,21 +30,11 @@ export default {
 </script>
 
 <style scoped>
-@keyframes hoverColor {
-  from {
-    background-color: mediumpurple;
-  }
-  to {
-    background-color: #151414;
-    color: white
-  }
-}
-
 .filter:hover {
   font-weight: 600;
   cursor: pointer;
-  animation: hoverColor;
-  animation-fill-mode: forwards;
+  background-color: #151414;
+  color: white
 }
 
 .filter {
