@@ -21,7 +21,8 @@ export default {
       document.getElementById('director_separator').style.display = "none";
       // reset slider value
       document.getElementById('slider').value = 2000;
-      document.getElementById('actual_year').innerText = '2000';
+      //document.getElementById('actual_year').innerText = '2000';
+      document.getElementById('actual_year').innerHTML = '2000<input type="checkbox"/>';
 
       // update store
       this.$store.commit('search/resetFilters');

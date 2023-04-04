@@ -23,4 +23,10 @@ footer {
   margin-bottom: 15px;
   text-align: center;
 }
+
+@media (max-width: 600px) {
+  footer {
+    grid-row: 4;
+  }
+}
 </style>

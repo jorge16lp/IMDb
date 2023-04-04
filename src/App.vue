@@ -216,10 +216,6 @@ aside {
     width: 100%;
     box-shadow: 0 0 0 0.1px white;
   }
-
-  .releaseYear_filter {
-    display: none;
-  }
 }
 
 main {
@@ -248,6 +244,12 @@ main {
 
   .movement_button:active {
     animation: blink 0.5s;
+  }
+}
+
+@media (max-width: 600px) {
+  .main {
+    grid-row: 3;
   }
 }
 </style>
