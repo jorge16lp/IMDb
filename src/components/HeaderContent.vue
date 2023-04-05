@@ -27,6 +27,7 @@ export default {
       // hide filter sections
       document.getElementById('gender_filter').style.display = 'none';
       document.getElementById('releaseYear_filter').style.display = 'none';
+      document.getElementById('duration_filter').style.display = 'none';
       document.getElementById('actor_filter').style.display = 'none';
       document.getElementById('director_filter').style.display = 'none';
 

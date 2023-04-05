@@ -1,14 +1,9 @@
 <template>
   <div class="filter_releaseYear">
     <p class="min_year">1950</p>
-    <input id="slider" type="range" min="1950" max="2023" value="2000" class="slider" v-on:input="updateActualYear()"/>
+    <input id="year_slider" type="range" min="1950" max="2023" value="2000" class="year_slider" v-on:input="updateActualYear()"/>
     <p id="max_year" class="max_year"></p>
     <p id="actual_year" class="actual_year">2000<input id="apply_year_filter" type="checkbox"/></p>
-    <!--
-    <label class="apply_releaseYear" for="apply_releaseYear">
-      <input id="apply_releaseYear" type="checkbox"/>apply
-    </label>
-    -->
   </div>
 </template>
 
@@ -16,11 +11,10 @@
 export default {
   methods: {
     updateActualYear() {
-      //document.getElementById('actual_year').innerText = document.getElementById('slider').value;
-      document.getElementById('actual_year').innerHTML = document.getElementById('slider').value
+      document.getElementById('actual_year').innerHTML = document.getElementById('year_slider').value
           + '<input id="apply_year_filter" type="checkbox" checked/>';
       this.$store.commit('search/setReleaseYear',
-          document.getElementById('slider').value);
+          document.getElementById('year_slider').value);
     }
   },
   mounted() {
@@ -50,19 +44,19 @@ export default {
     grid-column: 2;
   }
 
-  .slider {
+  .year_slider {
     align-self: center;
     cursor: pointer;
     border: 2px solid mediumpurple;
   }
 
-  .slider::-webkit-slider-thumb {
+  .year_slider::-webkit-slider-thumb {
     background-color: mediumpurple;
     color: white;
     margin-top: -4.5px;
   }
 
-  .slider::-webkit-slider-runnable-track {
+  .year_slider::-webkit-slider-runnable-track {
     height: 10px;
     background-color: black;
     border-radius: 5px;
