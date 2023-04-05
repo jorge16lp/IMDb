@@ -54,4 +54,10 @@ export default {
   animation: onClickBorderRadiusOut 1.5s;
   animation-fill-mode: forwards;
 }
+
+@media (max-width: 600px) {
+  .search {
+    width: 96%;
+  }
+}
 </style>

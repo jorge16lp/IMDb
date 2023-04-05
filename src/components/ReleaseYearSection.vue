@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="filter_title">RELEASE YEAR</h2>
-    <ReleaseYearFilter class="slider_content"/>
+    <ReleaseYearFilter/>
   </div>
 </template>
 

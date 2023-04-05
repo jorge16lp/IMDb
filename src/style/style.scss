@@ -69,16 +69,12 @@ aside {
   }
 
   .gender_filter {
-    display: none;
-
     .selected_genders_container {
       display: flow;
     }
   }
 
   .txt_filter {
-    display: none;
-
     .selected_filter {
       background-color: #151414;
       border: 2px solid mediumpurple;
@@ -133,5 +129,12 @@ aside {
     .add_button:active {
       animation: blink 0.05s;
     }
+  }
+}
+
+@media (max-width: 600px) {
+  aside {
+    grid-row: 2;
+    grid-column: span 3;
   }
 }

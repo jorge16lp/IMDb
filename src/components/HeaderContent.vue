@@ -17,21 +17,27 @@ export default {
   },
   methods: {
     toggleMenu() {
+      document.getElementById('menu_toggle').style.display = 'none';
       document.getElementById('menu').style.display = 'flex';
       document.getElementById('menu').style.flexFlow = 'column';
       document.getElementById('menu').style.alignContent = 'center';
       //document.getElementById('menu').style.position = 'absolute';
       //document.getElementById('menu').style.zIndex = '9999';
 
-      document.getElementById('menu').style.gridRow = '1/3';
-      document.getElementById('main').style.gridColumn = 'span 2';
-      document.getElementById('menu_toggle').style.display = 'none';
-      document.getElementById('header').style.gridColumn = '2/4';
-
+      // hide filter sections
       document.getElementById('gender_filter').style.display = 'none';
       document.getElementById('releaseYear_filter').style.display = 'none';
+      document.getElementById('duration_filter').style.display = 'none';
       document.getElementById('actor_filter').style.display = 'none';
       document.getElementById('director_filter').style.display = 'none';
+
+      if (window.innerWidth > 600) {
+        document.getElementById('menu').style.gridRow = '1/3';
+        document.getElementById('main').style.gridColumn = 'span 2';
+      } else {
+        document.getElementById('menu').style.gridRow = '2';
+        document.getElementById('main').style.gridRow = '3';
+      }
     }
   }
 };
@@ -62,7 +68,6 @@ export default {
     margin-bottom: 10px;
     margin-right: 5px;
   }
-
 }
 
 .header {
@@ -75,6 +80,7 @@ export default {
 
 .menu_toggle:hover {
   color: mediumpurple;
+  border-bottom: 1px solid mediumpurple;
   /*
   not sure about button design onHover
 
@@ -88,6 +94,23 @@ export default {
   height: 5rem;
   border-radius: 30px;
   justify-self: center;
+}
+
+@media (max-width: 600px) {
+  .header {
+    grid-row: 1;
+    grid-column: span 3;
+    grid-template: 1fr 1fr / 1fr;
+
+    .logo {
+      grid-row: 1;
+    }
+  }
+
+  .menu_toggle {
+    grid-row: 2;
+    grid-column: span 3;
+  }
 }
 
 </style>
