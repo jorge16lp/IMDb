@@ -19,10 +19,16 @@ export default {
       document.getElementById('actor_separator').style.display = "none";
       // reset directors separator line
       document.getElementById('director_separator').style.display = "none";
-      // reset slider value
-      document.getElementById('slider').value = 2000;
+
+      // reset year slider value
+      document.getElementById('year_slider').value = 2000;
       //document.getElementById('actual_year').innerText = '2000';
-      document.getElementById('actual_year').innerHTML = '2000<input type="checkbox"/>';
+      document.getElementById('actual_year').innerHTML = '2000<input id="apply_year_filter" type="checkbox"/>';
+
+      // reset slider value
+      document.getElementById('year_slider').value = 2000;
+      //document.getElementById('actual_year').innerText = '2000';
+      document.getElementById('actual_year').innerHTML = '2000<input id="apply_year_filter" type="checkbox"/>';
 
       // update store
       this.$store.commit('search/resetFilters');

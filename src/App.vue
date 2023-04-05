@@ -29,9 +29,7 @@
 
     <SeparatorLine id="year-duration" class="filters_separator"/>
 
-    <div>
-
-    </div>
+    <DurationSection id="duration_filter" class="duration_filter"/>
 
     <SeparatorLine id="duration-actor" class="filters_separator"/>
 
@@ -110,9 +108,11 @@ import BaseFilter from "@/components/BaseFilter.vue";
 import GenreFilter from "@/components/GenreFilter.vue";
 import SelectedGenreFilter from "@/components/SelectedGenreFilter.vue";
 import FiltersSelection from "@/components/FiltersSelection.vue";
+import DurationSection from "@/components/DurationSection.vue";
 
 export default {
   components: {
+    DurationSection,
     FiltersSelection,
     SelectedGenreFilter,
     GenreFilter,
