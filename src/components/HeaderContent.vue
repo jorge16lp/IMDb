@@ -25,11 +25,16 @@ export default {
       //document.getElementById('menu').style.zIndex = '9999';
 
       // hide filter sections
-      document.getElementById('gender_filter').style.display = 'none';
-      document.getElementById('releaseYear_filter').style.display = 'none';
-      document.getElementById('duration_filter').style.display = 'none';
-      document.getElementById('actor_filter').style.display = 'none';
-      document.getElementById('director_filter').style.display = 'none';
+      if (!(document.getElementById('gender_filter').style.display === 'block'))
+        document.getElementById('gender_filter').style.display = 'none';
+      if (!(document.getElementById('releaseYear_filter').style.display === 'block'))
+        document.getElementById('releaseYear_filter').style.display = 'none';
+      if (!(document.getElementById('duration_filter').style.display === 'block'))
+        document.getElementById('duration_filter').style.display = 'none';
+      if (!(document.getElementById('actor_filter').style.display === 'block'))
+        document.getElementById('actor_filter').style.display = 'none';
+      if (!(document.getElementById('director_filter').style.display === 'block'))
+        document.getElementById('director_filter').style.display = 'none';
 
       if (window.innerWidth > 600) {
         document.getElementById('menu').style.gridRow = '1/3';
@@ -51,7 +56,6 @@ export default {
   width: 60%;
   height: 50%;
   font-size: 23px;
-  border-radius: 3px;
   justify-self: center;
   background-color: black;
   color: white;
@@ -65,7 +69,7 @@ export default {
 
   .hamburger {
     font-size: 30px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     margin-right: 5px;
   }
 }

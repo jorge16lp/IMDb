@@ -28,8 +28,11 @@
 h2 {
   text-align: center;
   margin: 5px;
-  background-image: linear-gradient(to right, mediumpurple, mediumpurple, mediumpurple, black, rebeccapurple, rebeccapurple, rebeccapurple);
-  border-radius: 10px;
+  /*
+  background-image: linear-gradient(to right, rebeccapurple, mediumpurple, rebeccapurple);
+  background-image: linear-gradient(to right, mediumpurple, rebeccapurple, mediumpurple);
+   */
+  border-bottom: 1px solid mediumpurple;
 }
 
 aside {

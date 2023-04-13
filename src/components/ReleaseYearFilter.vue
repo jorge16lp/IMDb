@@ -26,7 +26,7 @@ export default {
 <style lang="scss" scoped>
 .filter_releaseYear {
   display: grid;
-  grid-template: 1fr 0.2fr / 1fr 3fr 1fr;
+  grid-template: 2rem 2rem / 1fr 3fr 1fr;
   justify-content: center;
   align-items: center;
 

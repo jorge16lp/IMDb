@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll">
+  <div id="scroll" class="scroll">
     <section class="grid">
       <slot></slot>
     </section>
@@ -7,7 +7,6 @@
 </template>
 
 <script>
-
 export default {}
 </script>
 

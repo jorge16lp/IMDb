@@ -23,19 +23,19 @@
       </BaseFilter>
     </div>
 
-    <SeparatorLine id="genre-year" class="filters_separator"/>
+    <SeparatorLine class="filters_separator"/>
 
     <ReleaseYearSection id="releaseYear_filter" class="releaseYear_filter"/>
 
-    <SeparatorLine id="year-duration" class="filters_separator"/>
+    <SeparatorLine class="filters_separator"/>
 
     <DurationSection id="duration_filter" class="duration_filter"/>
 
-    <SeparatorLine id="duration-actor" class="filters_separator"/>
+    <SeparatorLine class="filters_separator"/>
 
     <ActorFilterSection id="actor_filter"/>
 
-    <SeparatorLine id="actor-director" class="filters_separator"/>
+    <SeparatorLine class="filters_separator"/>
 
     <DirectorFilterSection id="director_filter"/>
 
@@ -43,54 +43,45 @@
 
   </aside>
   <main id="main" class="main">
-    <div>
-      <h2 class="section_title">MOST VIEWED</h2>
-      <div class="sliding">
-        <button class="movement_button" @click="moveLeft('mostViewed')">←</button>
-        <BaseGrid id="mostViewed">
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-        </BaseGrid>
-        <button class="movement_button" @click="moveRight('mostViewed')">→</button>
-      </div>
-      <h2 class="section_title">MOST POPULAR</h2>
-      <div class="sliding">
-        <button class="movement_button" @click="moveLeft('mostPopular')">←</button>
-        <BaseGrid id="mostPopular">
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-          <FilmCard></FilmCard>
-        </BaseGrid>
-        <button class="movement_button" @click="moveRight('mostPopular')">→</button>
-      </div>
+    <h2 class="section_title">SEARCHED FILMS</h2>
+    <div class="sliding">
+      <button class="movement_button" @click="moveLeft('mostViewed')">←</button>
+      <BaseGrid id="mostViewed">
+        <p class="no_films" v-if="films.length === 0">NO FILMS AVAILABLE&nbsp;😕</p>
+        <FilmCard
+            v-for="film in films"
+            v-bind:key="film.id"
+            v-bind:film="film">
+        </FilmCard>
+      </BaseGrid>
+      <button class="movement_button" @click="moveRight('mostViewed')">→</button>
     </div>
+    <!--
+    <h2 class="section_title">MOST POPULAR</h2>
+    <div class="sliding">
+      <button class="movement_button" @click="moveLeft('mostPopular')">←</button>
+      <BaseGrid id="mostPopular">
+        <FilmCard
+            v-for="film in films"
+            v-bind:key="film.id"
+            v-bind:film="film">
+        </FilmCard>
+      </BaseGrid>
+      <button class="movement_button" @click="moveRight('mostPopular')">→</button>
+    </div>
+    <h2 class="section_title">MOST AWARDED</h2>
+    <div class="sliding">
+      <button class="movement_button" @click="moveLeft('mostAwarded')">←</button>
+      <BaseGrid id="mostAwarded">
+        <FilmCard
+            v-for="film in films"
+            v-bind:key="film.id"
+            v-bind:film="film">
+        </FilmCard>
+      </BaseGrid>
+      <button class="movement_button" @click="moveRight('mostAwarded')">→</button>
+    </div>
+    -->
   </main>
   <FooterContent/>
 </template>
@@ -131,27 +122,41 @@ export default {
     return {
       filters: {
         gender: [
-          //'comedy', 'adventure', 'family', 'sci-fi', 'history', 'action', 'mystery', 'war', 'crime', 'fantasy',
-          //'horror', 'news', 'sport', 'western', 'animation', 'documentary', 'film-noir', 'music', 'reality-tv',
-          'talk-show', 'biography', 'drama', 'game-show', 'musical', 'romance', 'thriller'
+          'action', 'adventure', 'animation', 'biography', 'comedy', 'crime', 'documentary', 'drama',
+          'family', 'fantasy', 'film-noir', 'game-show', 'history', 'horror', 'music', 'musical',
+          'mystery', 'news', 'reality-tv', 'romance', 'sci-fi', 'sport', 'talk-show', 'thriller', 'war', 'western'
         ]
       }
     };
   },
   mounted() {
-    this.$store.dispatch('characters/fetchCharacters');
+    this.$store.dispatch('films/fetchFilms', 1);
+
+    const scrollContainer = document.getElementById('mostViewed');
+    scrollContainer.addEventListener('scroll', (event) => {
+      const scrollContainer = event.target;
+      const scrollLeft = scrollContainer.scrollLeft;
+      const contentWidth = scrollContainer.scrollWidth;
+
+      if (scrollLeft === contentWidth - scrollContainer.clientWidth) {
+        this.$store.dispatch('films/fetchFilms');
+
+        // Lógica para cargar más contenido o hacer acciones de scroll infinito
+        console.log('Scroll infinito detectado en el final de la sección horizontal');
+      }
+    });
   },
   computed: {
-    characters() {
-      return this.$store.getters['characters/getCharacters']
+    films() {
+      return this.$store.getters['films/getFilms']
     }
   },
   methods: {
     moveRight(section) {
-      document.getElementById(section).scrollLeft += 224;
+      document.getElementById(section).scrollLeft += 896;
     },
     moveLeft(section) {
-      document.getElementById(section).scrollLeft -= 224;
+      document.getElementById(section).scrollLeft -= 896;
     },
     hideMenu() {
       document.getElementById('menu').style.display = 'none';
