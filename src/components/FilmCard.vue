@@ -1,60 +1,51 @@
 <template>
   <!--v-if="film.Type==='movie'"-->
-  <article v-bind:id="film.imdbID" class="film"> <!-- añadir el onclick aqui -->
-    <img v-if="!(film.Poster==='N/A')" class="film_image" v-bind:alt="'film image of '+film.Title"
-         v-bind:src="film.Poster">
-    <img v-if="film.Poster==='N/A'" src="/cover_.jpeg" class="film_image" alt="film image">
-    <div>
+  <article v-if="film.Type==='movie'" v-bind:id="film.imdbID" class="film"
+           v-on:mouseover="plotTooltip(film.imdbID, film.Plot)"
+           v-on:mouseout="quitPlotTooltip(film.imdbID)">
+    <img v-bind:id="'poster_'+film.imdbID" v-if="!(film.Poster==='N/A')" class="film_image"
+         v-bind:alt="'film image of '+film.Title" v-bind:src="film.Poster">
+    <img v-bind:id="'poster_'+film.imdbID" v-if="film.Poster==='N/A'" src="/cover_.jpeg"
+         class="film_image" alt="film image">
+    <div v-bind:id="'title_'+film.imdbID">
       🍿🍿
       <br>
       {{film.Title}}
     </div>
 
-    <!--
-    <div>🍿film name🍿</div>
-    <div>✨description on tooltip✨</div>
-    -->
+    <div class="film_plotTooltip" v-bind:id="'plot_'+film.imdbID">
+      {{film.Plot}}
+    </div>
+
   </article>
 </template>
 
 <script>
 export default {
   props: ['film'],
-  mounted() {
-    // aqui añadir el codigo para meterle tooltip a las imagenes
-    /*
-        // Obtén el elemento enlace
-        var miEnlace = document.getElementById('miEnlace');
+  methods: {
+    plotTooltip(film_id, film_plot) {
+      document.getElementById('poster_'+film_id).style.display = 'none';
+      document.getElementById('title_'+film_id).style.display = 'none';
+      document.getElementById('plot_'+film_id).style.display = 'block';
 
-        // Agrega un evento 'mouseover' al enlace
-        miEnlace.addEventListener('mouseover', function(event) {
-        // Crea un elemento de tooltip
-        var tooltip = document.createElement('div');
-        tooltip.textContent = '¡Este es un tooltip!'; // Contenido del tooltip
-        tooltip.className = 'tooltip'; // Clase CSS para dar estilo al tooltip
+      /*
+      let plot_div = document.createElement('div');
+      plot_div.id = 'plot_' + film_id;
+      plot_div.classList.add('film_plotTooltip');
+      plot_div.textContent = film_plot;
 
-        // Posiciona el tooltip debajo del enlace
-        var rect = miEnlace.getBoundingClientRect();
-        tooltip.style.left = rect.left + 'px';
-        tooltip.style.top = rect.bottom + 'px';
+      document.getElementById(film_id).appendChild(plot_div);
 
-        // Agrega el tooltip al cuerpo del documento
-        document.body.appendChild(tooltip);
-
-        // Detiene la propagación del evento para evitar conflictos con otros eventos
-        event.stopPropagation();
-        });
-
-        // Agrega un evento 'mouseout' al enlace
-        miEnlace.addEventListener('mouseout', function() {
-        // Remueve el tooltip del cuerpo del documento
-        var tooltip = document.querySelector('.tooltip');
-        if (tooltip) {
-          tooltip.parentNode.removeChild(tooltip);
-        }
-        });
-
-     */
+      plot_div.style.gridRow = '1 / 3';
+      plot_div.style.maxWidth = '12rem';
+       */
+    },
+    quitPlotTooltip(film_id) {
+      document.getElementById('poster_'+film_id).style.display = 'block';
+      document.getElementById('title_'+film_id).style.display = 'block';
+      document.getElementById('plot_'+film_id).style.display = 'none';
+    }
   }
 };
 </script>
@@ -80,5 +71,12 @@ export default {
   div {
     text-align: center;
   }
+
+  .film_plotTooltip {
+    display: none;
+    grid-row: 1 / 3;
+    max-width: 12rem;
+  }
+
 }
 </style>

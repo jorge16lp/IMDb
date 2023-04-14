@@ -43,32 +43,35 @@
 
   </aside>
   <main id="main" class="main">
-    <h2 class="section_title">SEARCHED FILMS</h2>
-    <div class="sliding">
-      <button class="movement_button" @click="moveLeft('mostViewed')">←</button>
-      <BaseGrid id="mostViewed">
-        <p class="no_films" v-if="films.length === 0">NO FILMS AVAILABLE&nbsp;😕</p>
-        <FilmCard
-            v-for="film in films"
-            v-bind:key="film.id"
-            v-bind:film="film">
-        </FilmCard>
-      </BaseGrid>
-      <button class="movement_button" @click="moveRight('mostViewed')">→</button>
+    <div v-if="!(films.length === 0)">
+      <h2 class="section_title">SEARCHED FILMS</h2>
+      <div class="sliding">
+        <button class="movement_button" @click="moveLeft('searched')">←</button>
+        <BaseGrid id="searched" v-on:scroll="infiniteScrolling('searched')">
+          <p class="no_films" v-if="films.length === 0">NO FILMS AVAILABLE&nbsp;😕</p>
+          <FilmCard
+              v-for="film in films"
+              v-bind:key="film.id"
+              v-bind:film="film">
+          </FilmCard>
+        </BaseGrid>
+        <button class="movement_button" @click="moveRight('searched')">→</button>
+      </div>
     </div>
-    <!--
+
     <h2 class="section_title">MOST POPULAR</h2>
     <div class="sliding">
       <button class="movement_button" @click="moveLeft('mostPopular')">←</button>
       <BaseGrid id="mostPopular">
         <FilmCard
-            v-for="film in films"
+            v-for="film in popularFilms"
             v-bind:key="film.id"
             v-bind:film="film">
         </FilmCard>
       </BaseGrid>
       <button class="movement_button" @click="moveRight('mostPopular')">→</button>
     </div>
+    <!--
     <h2 class="section_title">MOST AWARDED</h2>
     <div class="sliding">
       <button class="movement_button" @click="moveLeft('mostAwarded')">←</button>
@@ -130,25 +133,15 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch('films/fetchFilms', 1);
-
-    const scrollContainer = document.getElementById('mostViewed');
-    scrollContainer.addEventListener('scroll', (event) => {
-      const scrollContainer = event.target;
-      const scrollLeft = scrollContainer.scrollLeft;
-      const contentWidth = scrollContainer.scrollWidth;
-
-      if (scrollLeft === contentWidth - scrollContainer.clientWidth) {
-        this.$store.dispatch('films/fetchFilms');
-
-        // Lógica para cargar más contenido o hacer acciones de scroll infinito
-        console.log('Scroll infinito detectado en el final de la sección horizontal');
-      }
-    });
+    //this.$store.dispatch('films/fetchFilms');
+    this.$store.dispatch('films/fetchMostPopularFilms');
   },
   computed: {
     films() {
       return this.$store.getters['films/getFilms']
+    },
+    popularFilms() {
+      return this.$store.getters['films/getMostPopularFilms']
     }
   },
   methods: {
@@ -165,6 +158,21 @@ export default {
       document.getElementById('menu_toggle').style.marginBottom = '10px';
       //document.getElementById('header').style.gridColumn = 'span 3';
       //document.getElementById('header').style.gridTemplateColumns = '2fr 1fr';
+    },
+    infiniteScrolling(section) {
+      const scrollContainer = document.getElementById(section);
+      scrollContainer.addEventListener('scroll', (event) => {
+        const scrollContainer = event.target;
+        const scrollLeft = scrollContainer.scrollLeft;
+        const contentWidth = scrollContainer.scrollWidth;
+
+        if (scrollLeft === contentWidth - scrollContainer.clientWidth) {
+          this.$store.dispatch('films/fetchFilms');
+
+          // Lógica para cargar más contenido o hacer acciones de scroll infinito
+          console.log('Scroll infinito detectado en el final de la sección horizontal');
+        }
+      });
     }
   }
 };
