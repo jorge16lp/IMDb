@@ -4,7 +4,7 @@
   </button>
   <header id="header" class="header">
     <SearchInput id="search_input"/>
-    <img src="/logo.png" class="logo" alt="IMDb logo">
+    <img src="/logo.png" class="logo" alt="IMDb logo" v-on:click="goToIMDb">
   </header>
 </template>
 
@@ -43,6 +43,9 @@ export default {
         document.getElementById('menu').style.gridRow = '2';
         document.getElementById('main').style.gridRow = '3';
       }
+    },
+    goToIMDb() {
+      window.location.href = 'https://www.imdb.com/';
     }
   }
 };
@@ -98,6 +101,7 @@ export default {
   height: 5rem;
   border-radius: 30px;
   justify-self: center;
+  cursor: pointer;
 }
 
 @media (max-width: 600px) {

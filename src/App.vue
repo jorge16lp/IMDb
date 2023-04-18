@@ -43,12 +43,12 @@
 
   </aside>
   <main id="main" class="main">
+
     <div v-if="!(films.length === 0)">
       <h2 class="section_title">SEARCHED FILMS</h2>
       <div class="sliding">
         <button class="movement_button" @click="moveLeft('searched')">←</button>
         <BaseGrid id="searched" v-on:scroll="infiniteScrolling('searched')">
-          <p class="no_films" v-if="films.length === 0">NO FILMS AVAILABLE&nbsp;😕</p>
           <FilmCard
               v-for="film in films"
               v-bind:key="film.id"
@@ -57,6 +57,48 @@
         </BaseGrid>
         <button class="movement_button" @click="moveRight('searched')">→</button>
       </div>
+    </div>
+
+    <div id="byReleaseYear_section" class="byReleaseYear_section">
+      <h2 id="byReleaseYear_title" class="section_title">BY RELEASE YEAR: 2000</h2>
+      <div class="sliding">
+        <button class="movement_button" @click="moveLeft('rel_year')">←</button>
+        <BaseGrid id="rel_year" v-on:scroll="infiniteScrolling('rel_year')">
+          <p v-if="byReleaseYearFilms.length === 0">NO FILM AVAILABLE FOR THIS FILTER 😕</p>
+          <FilmCard
+              v-for="film in byReleaseYearFilms"
+              v-bind:key="film.id"
+              v-bind:film="film">
+          </FilmCard>
+        </BaseGrid>
+        <button class="movement_button" @click="moveRight('rel_year')">→</button>
+      </div>
+    </div>
+
+    <h2 class="section_title">NOW PLAYING</h2>
+    <div class="sliding">
+      <button class="movement_button" @click="moveLeft('nowPlaying')">←</button>
+      <BaseGrid id="nowPlaying">
+        <FilmCard
+            v-for="film in nowPlayingFilms"
+            v-bind:key="film.id"
+            v-bind:film="film">
+        </FilmCard>
+      </BaseGrid>
+      <button class="movement_button" @click="moveRight('nowPlaying')">→</button>
+    </div>
+
+    <h2 class="section_title">TOP RATED</h2>
+    <div class="sliding">
+      <button class="movement_button" @click="moveLeft('topRated')">←</button>
+      <BaseGrid id="topRated">
+        <FilmCard
+            v-for="film in topRatedFilms"
+            v-bind:key="film.id"
+            v-bind:film="film">
+        </FilmCard>
+      </BaseGrid>
+      <button class="movement_button" @click="moveRight('topRated')">→</button>
     </div>
 
     <h2 class="section_title">MOST POPULAR</h2>
@@ -71,20 +113,7 @@
       </BaseGrid>
       <button class="movement_button" @click="moveRight('mostPopular')">→</button>
     </div>
-    <!--
-    <h2 class="section_title">MOST AWARDED</h2>
-    <div class="sliding">
-      <button class="movement_button" @click="moveLeft('mostAwarded')">←</button>
-      <BaseGrid id="mostAwarded">
-        <FilmCard
-            v-for="film in films"
-            v-bind:key="film.id"
-            v-bind:film="film">
-        </FilmCard>
-      </BaseGrid>
-      <button class="movement_button" @click="moveRight('mostAwarded')">→</button>
-    </div>
-    -->
+
   </main>
   <FooterContent/>
 </template>
@@ -134,14 +163,26 @@ export default {
   },
   mounted() {
     //this.$store.dispatch('films/fetchFilms');
-    this.$store.dispatch('films/fetchMostPopularFilms');
+    this.$store.dispatch('films/fetchSortedFilms');
+    this.$store.dispatch('films/fetchFilmsByReleaseYear', 2000);
+    //this.$store.dispatch('films/fetchMostPopularFilms');
+    //this.$store.dispatch('films/fetchNewReleaseFilms');
   },
   computed: {
     films() {
       return this.$store.getters['films/getFilms']
     },
+    byReleaseYearFilms() {
+      return this.$store.getters['films/getFilmsByReleaseYear']
+    },
     popularFilms() {
       return this.$store.getters['films/getMostPopularFilms']
+    },
+    topRatedFilms() {
+      return this.$store.getters['films/getTopRatedFilms']
+    },
+    nowPlayingFilms() {
+      return this.$store.getters['films/getNowPlayingFilms']
     }
   },
   methods: {
@@ -161,18 +202,15 @@ export default {
     },
     infiniteScrolling(section) {
       const scrollContainer = document.getElementById(section);
-      scrollContainer.addEventListener('scroll', (event) => {
-        const scrollContainer = event.target;
-        const scrollLeft = scrollContainer.scrollLeft;
-        const contentWidth = scrollContainer.scrollWidth;
+      //const scrollContainer = event.target;
+      const scrollLeft = scrollContainer.scrollLeft;
+      const contentWidth = scrollContainer.scrollWidth;
 
-        if (scrollLeft === contentWidth - scrollContainer.clientWidth) {
-          this.$store.dispatch('films/fetchFilms');
+      if (scrollLeft === contentWidth - scrollContainer.clientWidth) {
+        this.$store.dispatch('films/fetchFilms');
 
-          // Lógica para cargar más contenido o hacer acciones de scroll infinito
-          console.log('Scroll infinito detectado en el final de la sección horizontal');
-        }
-      });
+        console.log('Scroll infinito detectado en el final de la sección horizontal');
+      }
     }
   }
 };
@@ -192,6 +230,10 @@ main {
   background-color: black;
   grid-column: span 3;
   margin-right: 10px;
+
+  .byReleaseYear_section {
+    display: none;
+  }
 
   .sliding {
     align-items: center;
