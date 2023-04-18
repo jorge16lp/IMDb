@@ -2,6 +2,10 @@
   <!--v-if="film.Type==='movie'"-->
   <article v-bind:id="film.id" class="film">
 
+    <div class="score_circle">
+      {{film.vote_average}}
+    </div>
+
     <img v-bind:id="'poster_'+film.id" v-if="!(film.poster_path===null)" class="film_image"
          v-bind:alt="'film poster of '+film.title" v-bind:src="'https://image.tmdb.org/t/p/w500'+film.poster_path">
     <img v-bind:id="'poster_'+film.id" v-if="film.poster_path===null" src="/cover_.jpeg"
@@ -89,6 +93,20 @@ export default {
   min-height: 25rem;
   border: 1px solid mediumpurple;
   background-color: rebeccapurple;
+  position: relative;
+
+  .score_circle {
+    position: absolute;
+    margin-bottom: 26rem;
+    margin-left: 0.2rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: mediumpurple;
+    color: #fff;
+    text-align: center;
+    line-height: 2rem;
+  }
 
   .film_image {
     width: 100%;

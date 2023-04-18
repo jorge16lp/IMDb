@@ -1,9 +1,13 @@
 <template>
   <div class="filter_duration">
     <p class="min_duration">20'</p>
-    <input id="duration_slider" type="range" min="20" max="240" value="90" class="duration_slider" v-on:input="updateDuration()"/>
+    <input id="duration_slider" type="range" min="20" max="240" value="90" class="duration_slider"
+           v-on:input="updateDuration()"/>
     <p class="max_duration">240'</p>
-    <p id="actual_duration" class="actual_duration">90'<input id="apply_duration_filter" type="checkbox"/></p>
+    <div class="actual_duration_container">
+      <p id="actual_duration" class="actual_duration">90'</p>
+      <input id="apply_duration_filter" type="checkbox" v-on:click="handleChange"/>
+    </div>
   </div>
 </template>
 
@@ -11,12 +15,18 @@
 export default {
   methods: {
     updateDuration() {
-      document.getElementById('actual_duration').innerHTML = document.getElementById('duration_slider').value
-          + '\'' + '<input id="apply_duration_filter" type="checkbox" checked/>';
+      document.getElementById('actual_duration').innerHTML =
+          document.getElementById('duration_slider').value + '\'';
 
       this.$store.commit('search/setDuration',
           document.getElementById('duration_slider').value);
 
+    },
+    handleChange() {
+      if (document.getElementById('apply_duration_filter').checked)
+        document.getElementById('byDuration_section').style.display = 'block';
+      else
+        document.getElementById('byDuration_section').style.display = 'none';
     }
   },
   mounted() {
@@ -42,11 +52,6 @@ export default {
     text-align: right;
   }
 
-  .actual_duration {
-    text-align: center;
-    grid-column: 2;
-  }
-
   .duration_slider {
     align-self: center;
     cursor: pointer;
@@ -64,6 +69,18 @@ export default {
     background-color: black;
     border-radius: 5px;
     border: 2px solid rebeccapurple;
+  }
+
+  .actual_duration_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 2;
+
+    .actual_duration {
+      text-align: center;
+      grid-column: 2;
+    }
   }
 }
 </style>

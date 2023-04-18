@@ -44,7 +44,7 @@
   </aside>
   <main id="main" class="main">
 
-    <div v-if="!(films.length === 0)">
+    <div id="searched_section" v-if="!(films.length === 0)">
       <h2 class="section_title">SEARCHED FILMS</h2>
       <div class="sliding">
         <button class="movement_button" @click="moveLeft('searched')">←</button>
@@ -74,6 +74,24 @@
         <button class="movement_button" @click="moveRight('rel_year')">→</button>
       </div>
     </div>
+
+    <!--
+    <div id="byDuration_section" class="byDuration_section">
+      <h2 id="byReleaseYear_title" class="section_title">BY DURATION: 90'</h2>
+      <div class="sliding">
+        <button class="movement_button" @click="moveLeft('duration')">←</button>
+        <BaseGrid id="duration" v-on:scroll="infiniteScrolling('duration')">
+          <p v-if="byDurationFilms.length === 0">NO FILM AVAILABLE FOR THIS FILTER 😕</p>
+          <FilmCard
+              v-for="film in byDurationFilms"
+              v-bind:key="film.id"
+              v-bind:film="film">
+          </FilmCard>
+        </BaseGrid>
+        <button class="movement_button" @click="moveRight('duration')">→</button>
+      </div>
+    </div>
+    -->
 
     <h2 class="section_title">NOW PLAYING</h2>
     <div class="sliding">
@@ -162,11 +180,9 @@ export default {
     };
   },
   mounted() {
-    //this.$store.dispatch('films/fetchFilms');
     this.$store.dispatch('films/fetchSortedFilms');
     this.$store.dispatch('films/fetchFilmsByReleaseYear', 2000);
-    //this.$store.dispatch('films/fetchMostPopularFilms');
-    //this.$store.dispatch('films/fetchNewReleaseFilms');
+    //this.$store.dispatch('films/fetchFilmsByDuration', 90);
   },
   computed: {
     films() {
@@ -174,6 +190,9 @@ export default {
     },
     byReleaseYearFilms() {
       return this.$store.getters['films/getFilmsByReleaseYear']
+    },
+    byDurationFilms() {
+      return this.$store.getters['films/getFilmsByDuration']
     },
     popularFilms() {
       return this.$store.getters['films/getMostPopularFilms']

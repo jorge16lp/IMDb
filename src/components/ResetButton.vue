@@ -6,6 +6,10 @@
 export default {
   methods: {
     cleanFilters() {
+      // reset search
+      document.getElementById('search').value = '';
+      document.getElementById('searched_section').style.display = 'none';
+
       // reset selected filters
       const filters = document.getElementsByClassName('filter');
       for (let i = 0; i < filters.length; i++)
@@ -22,13 +26,13 @@ export default {
 
       // reset year slider value
       document.getElementById('year_slider').value = 2000;
-      //document.getElementById('actual_year').innerText = '2000';
-      document.getElementById('actual_year').innerHTML = '2000<input id="apply_year_filter" type="checkbox"/>';
+      document.getElementById('apply_year_filter').checked = false;
+      document.getElementById('byReleaseYear_section').style.display = 'none';
 
-      // reset slider value
-      document.getElementById('year_slider').value = 2000;
-      //document.getElementById('actual_year').innerText = '2000';
-      document.getElementById('actual_year').innerHTML = '2000<input id="apply_year_filter" type="checkbox"/>';
+      // reset duration slider value
+      document.getElementById('duration_slider').value = 2000;
+      document.getElementById('apply_duration_filter').checked = false;
+      document.getElementById('byDuration_section').style.display = 'none';
 
       // update store
       this.$store.commit('search/resetFilters');
