@@ -1,9 +1,13 @@
 <template>
   <div class="filter_releaseYear">
     <p class="min_year">1950</p>
-    <input id="year_slider" type="range" min="1950" max="2023" value="2000" class="year_slider" v-on:input="updateActualYear()"/>
+    <input id="year_slider" type="range" min="1950" max="2023" value="2000" class="year_slider"
+           v-on:input="updateActualYear()"/>
     <p id="max_year" class="max_year"></p>
-    <p id="actual_year" class="actual_year">2000<input id="apply_year_filter" type="checkbox"/></p>
+    <div class="actual_year_container">
+      <p id="actual_year" class="actual_year">2000</p>
+      <input id="apply_year_filter" type="checkbox" v-on:click="handleChange"/>
+    </div>
   </div>
 </template>
 
@@ -11,10 +15,20 @@
 export default {
   methods: {
     updateActualYear() {
-      document.getElementById('actual_year').innerHTML = document.getElementById('year_slider').value
-          + '<input id="apply_year_filter" type="checkbox" checked/>';
-      this.$store.commit('search/setReleaseYear',
-          document.getElementById('year_slider').value);
+      const value = document.getElementById('year_slider').value;
+      document.getElementById('actual_year').innerHTML = value;
+      document.getElementById('byReleaseYear_title').textContent = 'BY RELEASE YEAR: ' + value;
+      if (!document.getElementById('apply_year_filter').checked)
+        document.getElementById('apply_year_filter').click();
+
+      this.$store.commit('search/setReleaseYear', value);
+      this.$store.dispatch('films/fetchFilmsByReleaseYear', value);
+    },
+    handleChange() {
+      if (document.getElementById('apply_year_filter').checked)
+        document.getElementById('byReleaseYear_section').style.display = 'block';
+      else
+        document.getElementById('byReleaseYear_section').style.display = 'none';
     }
   },
   mounted() {
@@ -26,7 +40,7 @@ export default {
 <style lang="scss" scoped>
 .filter_releaseYear {
   display: grid;
-  grid-template: 1fr 0.2fr / 1fr 3fr 1fr;
+  grid-template: 2rem 2rem / 1fr 3fr 1fr;
   justify-content: center;
   align-items: center;
 
@@ -39,10 +53,7 @@ export default {
     text-align: right;
   }
 
-  .actual_year {
-    text-align: center;
-    grid-column: 2;
-  }
+
 
   .year_slider {
     align-self: center;
@@ -63,9 +74,17 @@ export default {
     border: 2px solid rebeccapurple;
   }
 
-  .apply_releaseYear {
-    grid-row: 2;
-    grid-column: 1;
+  .actual_year_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 2;
+
+    .actual_year {
+      text-align: center;
+      grid-column: 2;
+      justify-self: center;
+    }
   }
 }
 </style>

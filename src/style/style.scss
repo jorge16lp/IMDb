@@ -28,8 +28,11 @@
 h2 {
   text-align: center;
   margin: 5px;
-  background-image: linear-gradient(to right, mediumpurple, mediumpurple, mediumpurple, black, rebeccapurple, rebeccapurple, rebeccapurple);
-  border-radius: 10px;
+  /*
+  background-image: linear-gradient(to right, rebeccapurple, mediumpurple, rebeccapurple);
+  background-image: linear-gradient(to right, mediumpurple, rebeccapurple, mediumpurple);
+   */
+  border-bottom: 1px solid rebeccapurple;
 }
 
 aside {
@@ -129,6 +132,43 @@ aside {
     .add_button:active {
       animation: blink 0.05s;
     }
+  }
+}
+
+main {
+  background-color: black;
+  grid-column: span 3;
+  margin-right: 10px;
+
+  .byReleaseYear_section {
+    display: none;
+  }
+
+  .noAvailable_text {
+    margin-left: 5rem;
+  }
+
+  .sliding {
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+    position: relative;
+  }
+
+  .movement_button {
+    border: 1px solid rebeccapurple;
+    background-color: black;
+    color: white;
+    border-radius: 3px;
+    margin: 5px;
+  }
+
+  .movement_button:hover {
+    background-color: mediumpurple;
+  }
+
+  .movement_button:active {
+    animation: blink 0.5s;
   }
 }
 

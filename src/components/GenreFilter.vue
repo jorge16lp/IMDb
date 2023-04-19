@@ -38,13 +38,13 @@ export default {
 }
 
 .filter {
-  margin: 0 30px 4px;
+  margin: 0 10px 4px;
   background-color: mediumpurple;
   color: #151414;
   font-weight: 600;
   padding: 0.3rem 1.5rem;
   border-radius: 2px;
   border: 2px solid mediumpurple;
-  width: 75%;
+  width: 90%;
 }
 </style>
