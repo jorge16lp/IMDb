@@ -199,6 +199,56 @@ export default {
     this.$store.dispatch('films/fetchSortedFilms');
     this.$store.dispatch('films/fetchFilmsByReleaseYear', 2000);
     //this.$store.dispatch('films/fetchFilmsByDuration', 90);
+
+    /*
+    DEBOUNCE
+
+function debounce(func, wait = 300) {
+	let timeout;
+	return function (…args) {
+		clearTime(timeout);
+		timeout = setTimeout(() => func.apply(this, args), wait);
+	};
+}
+
+
+
+
+
+    IMDb
+
+METER ESTA LISTA EN EL PROYECTO COMENTADA
+TODO
+hacerlo responsive
+añadir el debounce
+aplicar typescript?
+añadir tests
+
+IDEAS EXTRA
+otro botón de menú para ordenar (uno para filtros y otro para ordenar o añadir lo de ordenar en la de filtros y llamarlo menú?)
+poner el menú con position absolute y que tape parcialmente las peliculas y eso…?????
+
+DONE
+arreglar el searched films con el reset button
+ponerle el NO AVAILABLE???
+acabar el fav films
+al buscar pelis, que salga ya si estan en favs con un onload en el article y que busca por className si el resto tienen el corazon a rojo? por ejemplo, NO, mejor con la store (get y comparar)
+poder mostrar las favs de cada momento
+hacer que se pueda ampliar una peli, ver más datos (ampliación o nueva página, lo que mejor vea)
+poner tooltips a las peliculas
+al principio salgan mostPopular y cuando se hace alguna búsqueda, que salgan las searched
+meter una api para probar como se ven y esas cosas
+scroll infinito para la derecha
+mover cosas a componentes (header, footer…)
+ponerle shadow al boton del menu cuando mover
+cambiar menú a menú de hamburguesa y que desaparezca al pulsarlo, dentro del menú lateral un botón para cerrar el menú, así no tengo que cambiar el contenido del botón
+añadir checkboxes para seleccionar qué filtros se quieren usar arriba del todo, en función de los que se seleccionen, se hacen visibles los filtros correspondientes o no…
+hacerla responsive
+arreglar el reset filters —> poner el reset duration slider bien
+nuevo filtro de duración de la peli/serie ??
+al abrir y cerrar varias veces el menú, que se desseleccionen los botones de los filtros
+añadir al filtro de release year un botón de apply (checkbox mismamente)
+     */
   },
   computed: {
     films() {
