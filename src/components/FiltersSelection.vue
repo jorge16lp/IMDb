@@ -1,6 +1,9 @@
 <template>
   <fieldset>
     <legend>select filters to use</legend>
+    <button id="fav_button" class="selection_filter" @click="showFavs('fav_button')">
+      fav movies
+    </button>
     <button id="genre_button" class="selection_filter" @click="selectFilter('genre_button','gender_filter')">
       genre
     </button>
@@ -30,6 +33,17 @@ export default {
         document.getElementById(button).style.color = 'white';
       } else {
         document.getElementById(filter).style.display = 'none';
+        document.getElementById(button).style.backgroundColor = 'mediumpurple';
+        document.getElementById(button).style.color = 'black';
+      }
+    },
+    showFavs(button) {
+      if (document.getElementById('fav_section').style.display === 'none') {
+        document.getElementById('fav_section').style.display = 'block';
+        document.getElementById(button).style.backgroundColor = '#151414';
+        document.getElementById(button).style.color = 'white';
+      } else {
+        document.getElementById('fav_section').style.display = 'none';
         document.getElementById(button).style.backgroundColor = 'mediumpurple';
         document.getElementById(button).style.color = 'black';
       }
