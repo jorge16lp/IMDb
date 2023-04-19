@@ -8,7 +8,8 @@ export default {
     cleanFilters() {
       // reset search
       document.getElementById('search').value = '';
-      document.getElementById('searched_section').style.display = 'none';
+      if (!(document.getElementById('searched_section') === null))
+        document.getElementById('searched_section').style.display = 'none';
 
       // reset selected filters
       const filters = document.getElementsByClassName('filter');
@@ -26,13 +27,15 @@ export default {
 
       // reset year slider value
       document.getElementById('year_slider').value = 2000;
+      document.getElementById('actual_year').textContent = '2000';
       document.getElementById('apply_year_filter').checked = false;
       document.getElementById('byReleaseYear_section').style.display = 'none';
 
       // reset duration slider value
-      document.getElementById('duration_slider').value = 2000;
+      document.getElementById('duration_slider').value = 90;
+      document.getElementById('actual_duration').textContent = '90\'';
       document.getElementById('apply_duration_filter').checked = false;
-      document.getElementById('byDuration_section').style.display = 'none';
+      //document.getElementById('byDuration_section').style.display = 'none';
 
       // update store
       this.$store.commit('search/resetFilters');

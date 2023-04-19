@@ -135,6 +135,43 @@ aside {
   }
 }
 
+main {
+  background-color: black;
+  grid-column: span 3;
+  margin-right: 10px;
+
+  .byReleaseYear_section {
+    display: none;
+  }
+
+  .noAvailable_text {
+    margin-left: 5rem;
+  }
+
+  .sliding {
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+    position: relative;
+  }
+
+  .movement_button {
+    border: 1px solid rebeccapurple;
+    background-color: black;
+    color: white;
+    border-radius: 3px;
+    margin: 5px;
+  }
+
+  .movement_button:hover {
+    background-color: mediumpurple;
+  }
+
+  .movement_button:active {
+    animation: blink 0.5s;
+  }
+}
+
 @media (max-width: 600px) {
   aside {
     grid-row: 2;

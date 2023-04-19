@@ -59,12 +59,28 @@
       </div>
     </div>
 
+    <div id="fav_section" class="fav_section" style="display: none">
+      <h2 id="fav_title" class="section_title">FAV MOVIES</h2>
+      <div class="sliding">
+        <button class="movement_button" @click="moveLeft('fav')">←</button>
+        <BaseGrid id="fav" v-on:scroll="infiniteScrolling('fav')">
+          <p class="noAvailable_text" v-if="favFilms.length === 0">NO FILMS ADDED TO FAV MOVIES</p>
+          <FilmCard
+              v-for="film in favFilms"
+              v-bind:key="film.id"
+              v-bind:film="film">
+          </FilmCard>
+        </BaseGrid>
+        <button class="movement_button" @click="moveRight('fav')">→</button>
+      </div>
+    </div>
+
     <div id="byReleaseYear_section" class="byReleaseYear_section">
       <h2 id="byReleaseYear_title" class="section_title">BY RELEASE YEAR: 2000</h2>
       <div class="sliding">
         <button class="movement_button" @click="moveLeft('rel_year')">←</button>
         <BaseGrid id="rel_year" v-on:scroll="infiniteScrolling('rel_year')">
-          <p v-if="byReleaseYearFilms.length === 0">NO FILM AVAILABLE FOR THIS FILTER 😕</p>
+          <p class="noAvailable_text" v-if="byReleaseYearFilms.length === 0">NO FILM AVAILABLE FOR THIS FILTER 😕</p>
           <FilmCard
               v-for="film in byReleaseYearFilms"
               v-bind:key="film.id"
@@ -202,6 +218,9 @@ export default {
     },
     nowPlayingFilms() {
       return this.$store.getters['films/getNowPlayingFilms']
+    },
+    favFilms() {
+      return this.$store.getters['films/getFavFilms']
     }
   },
   methods: {
@@ -216,19 +235,16 @@ export default {
       document.getElementById('main').style.gridColumn = 'span 3';
       document.getElementById('menu_toggle').style.display = 'block';
       document.getElementById('menu_toggle').style.marginBottom = '10px';
-      //document.getElementById('header').style.gridColumn = 'span 3';
-      //document.getElementById('header').style.gridTemplateColumns = '2fr 1fr';
     },
     infiniteScrolling(section) {
       const scrollContainer = document.getElementById(section);
-      //const scrollContainer = event.target;
       const scrollLeft = scrollContainer.scrollLeft;
       const contentWidth = scrollContainer.scrollWidth;
 
       if (scrollLeft === contentWidth - scrollContainer.clientWidth) {
         this.$store.dispatch('films/fetchFilms');
 
-        console.log('Scroll infinito detectado en el final de la sección horizontal');
+        console.log('Scroll infinito');
       }
     }
   }
@@ -245,42 +261,7 @@ aside {
   }
 }
 
-main {
-  background-color: black;
-  grid-column: span 3;
-  margin-right: 10px;
-
-  .byReleaseYear_section {
-    display: none;
-  }
-
-  .sliding {
-    align-items: center;
-    display: flex;
-    flex-flow: row nowrap;
-    position: relative;
-  }
-
-  .movement_button {
-    border: 1px solid rebeccapurple;
-    background-color: black;
-    color: white;
-    border-radius: 3px;
-    margin: 5px;
-  }
-
-  .movement_button:hover {
-    background-color: mediumpurple;
-  }
-
-  .movement_button:active {
-    animation: blink 0.5s;
-  }
-}
-
 @media (max-width: 600px) {
-  .main {
-    grid-row: 3;
-  }
+
 }
 </style>

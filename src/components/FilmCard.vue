@@ -3,14 +3,20 @@
   <article v-bind:id="film.id" class="film">
 
     <div class="score_circle">
-      {{film.vote_average}}
+      {{ film.vote_average.toFixed(1) }}
+    </div>
+
+    <div v-bind:id="'heart_'+film.id" v-bind:class="['mg_circle', 'heart_'+film.id]" v-on:click="changeHeart(film)">
+      &hearts;
     </div>
 
     <img v-bind:id="'poster_'+film.id" v-if="!(film.poster_path===null)" class="film_image"
-         v-bind:alt="'film poster of '+film.title" v-bind:src="'https://image.tmdb.org/t/p/w500'+film.poster_path">
+         v-bind:alt="'film poster of '+film.title" v-bind:src="'https://image.tmdb.org/t/p/w500'+film.poster_path"
+         v-on:load="checkHeartColor(film.id)">
     <img v-bind:id="'poster_'+film.id" v-if="film.poster_path===null" src="/cover_.jpeg"
          class="film_image" alt="film image">
-    <div v-bind:id="'score_'+film.id" class="film_score">
+
+    <div v-bind:id="'score_'+film.id" v-bind:class="['film_score', 'film_score_'+film.id]">
 
     </div>
 
@@ -44,8 +50,11 @@ export default {
   props: ['film'],
   mounted() {
     let score = this.film.vote_average;
-    for (let i=1; i<=score/2; i++)
-      document.getElementById('score_' + this.film.id).textContent += '⭐';
+    let films = document.getElementsByClassName('film_score_' + this.film.id);
+    for (let j = 0; j < films.length; j++)
+      if (films[j].textContent === '')
+        for (let i = 1; i <= score / 2; i++)
+          films[j].textContent += '⭐';
   },
   methods: {
     overviewTooltip(film_id) {
@@ -58,24 +67,33 @@ export default {
       document.getElementById('back_' + film_id).style.gridRow = '1 / 5';
       document.getElementById('back_' + film_id).style.gridTemplateRows = '1fr 1.5rem';
       document.getElementById('back_' + film_id).style.height = '100%';
-
-      /*
-
-       */
     },
     quitOverviewTooltip(film_id) {
-
       document.getElementById('poster_' + film_id).style.display = 'block';
       document.getElementById('title_' + film_id).style.display = 'block';
       document.getElementById('film_buttons_container_' + film_id).style.display = 'block';
       document.getElementById('score_' + film_id).style.display = 'block';
       document.getElementById('back_' + film_id).style.display = 'none';
-      /*
-
-       */
     },
-    setScore(film_id, film_score) {
-      console.log('HOLIU');
+    changeHeart(film) {
+      let films = document.getElementsByClassName('heart_' + film.id);
+      if (document.getElementById('heart_' + film.id).style.color === 'white'
+          || document.getElementById('heart_' + film.id).style.color === '') {
+        for (let i = 0; i < films.length; i++)
+          films[i].style.color = 'red';
+        this.$store.commit('films/addFavFilm', film);
+      } else {
+        for (let i = 0; i < films.length; i++)
+          films[i].style.color = 'white';
+        this.$store.commit('films/removeFavFilm', film);
+      }
+    },
+    checkHeartColor(film_id) {
+      const favFilms = this.$store.getters['films/getFavFilms'];
+      let films = document.getElementsByClassName('heart_' + film_id);
+      for (let i = 0; i < films.length; i++)
+        if (!(favFilms.findIndex(f => ('heart_' + f.id) === films[i].id) === -1))
+          films[i].style.color = 'red';
     }
   }
 };
@@ -106,6 +124,21 @@ export default {
     color: #fff;
     text-align: center;
     line-height: 2rem;
+  }
+
+  .mg_circle {
+    position: absolute;
+    margin-bottom: 26rem;
+    margin-left: 11.9rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: mediumpurple;
+    color: white;
+    border: none;
+    text-align: center;
+    line-height: 2rem;
+    cursor: pointer;
   }
 
   .film_image {

@@ -18,6 +18,9 @@ export default {
       const value = document.getElementById('year_slider').value;
       document.getElementById('actual_year').innerHTML = value;
       document.getElementById('byReleaseYear_title').textContent = 'BY RELEASE YEAR: ' + value;
+      if (!document.getElementById('apply_year_filter').checked)
+        document.getElementById('apply_year_filter').click();
+
       this.$store.commit('search/setReleaseYear', value);
       this.$store.dispatch('films/fetchFilmsByReleaseYear', value);
     },

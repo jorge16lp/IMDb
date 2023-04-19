@@ -15,18 +15,22 @@
 export default {
   methods: {
     updateDuration() {
-      document.getElementById('actual_duration').innerHTML =
-          document.getElementById('duration_slider').value + '\'';
+      const value = document.getElementById('duration_slider').value;
+      document.getElementById('actual_duration').innerHTML = value + '\'';
+      //document.getElementById('byDuration_title').textContent = 'BY DURATION: ' + value + '\'';
+      if (!document.getElementById('apply_duration_filter').checked)
+        document.getElementById('apply_duration_filter').click();
 
-      this.$store.commit('search/setDuration',
-          document.getElementById('duration_slider').value);
-
+      this.$store.commit('search/setDuration', value);
+      //this.$store.dispatch('films/fetchFilmsByDuration', value);
     },
     handleChange() {
+      /*
       if (document.getElementById('apply_duration_filter').checked)
         document.getElementById('byDuration_section').style.display = 'block';
       else
         document.getElementById('byDuration_section').style.display = 'none';
+       */
     }
   },
   mounted() {

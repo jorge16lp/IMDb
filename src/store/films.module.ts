@@ -9,12 +9,13 @@ export const filmsModule = {
         mostPopularFilms: [],
         topRatedFilms: [],
         nowPlayingFilms: [],
-        byReleaseYearFilms: []
+        byReleaseYearFilms: [],
+        favFilms: []
     }),
     actions: {
         async fetchFilmsByReleaseYear({commit}, rel_year) {
-            let minYear = parseInt(rel_year) - 2;
-            let maxYear = parseInt(rel_year) + 2;
+            let minYear = parseInt(rel_year) - 1;
+            let maxYear = parseInt(rel_year) + 1;
             let url = 'https://api.themoviedb.org/3/discover/movie?api_key=' + apiKey
                 + '&primary_release_date.gte=' + minYear + '&primary_release_date.lte=' + maxYear;
             fetch(url)
@@ -23,17 +24,6 @@ export const filmsModule = {
                     commit('addFilmsByReleaseYear', data.results);
                     console.log(data);
                 }).catch(error => console.log(error));
-/*
-            fetch(url + 'page')
-                .then(response => response.json())
-                .then(data => {
-                    if (page <= data.total_pages) {
-                        commit('addFilms', data.results);
-                        //console.log(data);
-                    }
-                }).catch(error => console.error(error));
-
- */
         },
         async fetchSortedFilms({commit}) {
             // MOST POPULAR FILMS
@@ -106,6 +96,13 @@ export const filmsModule = {
         },
         addFilmsByReleaseYear(state, films) {
             state.byReleaseYearFilms = films;
+        },
+        addFavFilm(state, film) {
+            state.favFilms[state.favFilms.length] = film;
+        },
+        removeFavFilm(state, film) {
+            let index = state.favFilms.findIndex(f => f.id === film.id);
+            state.favFilms.splice(index, 1);
         }
     },
     getters: {
@@ -123,6 +120,9 @@ export const filmsModule = {
         },
         getNowPlayingFilms(state) {
             return state.nowPlayingFilms
+        },
+        getFavFilms(state) {
+            return state.favFilms
         }
     }
 }
