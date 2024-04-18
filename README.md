@@ -9,8 +9,7 @@ This repository contains the IMDb Project at Academy Frontend Software - Empathy
 
 #### Back:
 
-- Tania Bajo García
-- Raúl Álvarez
+- Jorge López Peláez
 
 ## Branches
 
